@@ -31,7 +31,7 @@ void DeviceInit(void)
 // Note: not all peripherals are available on all 280x derivates.
 // Refer to the datasheet for your particular device. 
 
-   SysCtrlRegs.PCLKCR0.bit.ADCENCLK = 0;    // ADC
+   SysCtrlRegs.PCLKCR0.bit.ADCENCLK = 1;    // ADC
    //------------------------------------------------
    SysCtrlRegs.PCLKCR3.bit.COMP1ENCLK = 0;	// COMP1
    SysCtrlRegs.PCLKCR3.bit.COMP2ENCLK = 0;	// COMP2
@@ -190,6 +190,34 @@ void DeviceInit(void)
 //  GPIO-35 - GPIO-38 = Used for JTAG Port
 //---------------------------------------------------------------
 //---------------------------------------------------------------
+
+//---------------------------------------------------------------
+// INITIALIZE A-D
+//---------------------------------------------------------------
+//input channel = junction temperature sensor, SOC0, software triggering
+
+    //simultaneously power up ADC's analog circuitry, bandgap, and reference buffer:
+    AdcRegs.ADCCTL1.all = 0x00e0;
+    //bit 7     ADCPWDN (ADC power down): 0=powered down, 1=powered up
+    //bit 6     ADCBGPWD (ADC bandgap power down): 0=powered down, 1=powered up
+    //bit 5     ADCREFPWD (ADC reference power down): 0=powered down, 1=powered up
+
+    //generate INT pulse on end of conversion:
+    AdcRegs.ADCCTL1.bit.INTPULSEPOS = 1;
+
+    //enable ADC:
+    AdcRegs.ADCCTL1.bit.ADCENABLE = 1;
+
+    //wait 1 ms after power-up before using the ADC:
+    DelayUs(1000);
+
+    //configure to sample on-chip temperature sensor:
+    AdcRegs.ADCCTL1.bit.TEMPCONV = 1; //connect A5 to temp sensor
+    AdcRegs.ADCSOC0CTL.bit.CHSEL = 5; //set SOC0 to sample A5
+    AdcRegs.ADCSOC0CTL.bit.ACQPS = 0x6; //set SOC0 window to 7 ADCCLKs
+    AdcRegs.INTSEL1N2.bit.INT1SEL = 0; //connect interrupt ADCINT1 to EOC0
+    AdcRegs.INTSEL1N2.bit.INT1E = 1; //enable interrupt ADCINT1
+
 
 	EDIS;	// restore protection of registers
 
