@@ -42,6 +42,7 @@ int16 n;
  */
 Int main()
 {
+    // test comment
 
     /* 
      * Start BIOS
