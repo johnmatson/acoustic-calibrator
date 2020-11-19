@@ -27,8 +27,8 @@ volatile Bool isrFlag = FALSE;
 /* Counter incremented by timer interrupt */
 volatile UInt tickCount = 0;
 
-int16 new_sample1;// sample from ADC_1
-int16 new_sample2;// sample from ADC_2
+int16 newsample1;// sample from ADC_1
+int16 newsample2;// sample from ADC_2
 int16 reg_in[FILTER_SIZE];// buffer containing values to be filtered
 int16 reg_out[FILTER_SIZE];// buffer containing filtered  values
 int16 reg_fft_1[FFT_SIZE];// buffer for FFT 1
@@ -80,10 +80,9 @@ Void myIdleFxn(Void)
 }
 
 Void ADC_1(void) {
-
+    newsample1 = 1;
 }
 
 void ADC_2(void) {
-
-}
+    newsample2 = 1;
 }
