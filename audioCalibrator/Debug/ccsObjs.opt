@@ -1,0 +1,1 @@
+"./DelayUs.obj" "./DeviceInit_18Nov2018.obj" "./F2802x_GlobalVariableDefs.obj" "./idle.obj" "../F2802x_Headers_BIOS.cmd" "../TMS320F28027.cmd" -l"configPkg/linker.cmd" -llibc.a 
