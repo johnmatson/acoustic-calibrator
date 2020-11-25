@@ -1,1 +1,1 @@
-"./DeviceInit_18Nov2018.obj" "./F2802x_GlobalVariableDefs.obj" "./idle.obj" "../F2802x_Headers_BIOS.cmd" "../TMS320F28027.cmd" -l"configPkg/linker.cmd" -llibc.a 
+"./DelayUs.obj" "./DeviceInit_18Nov2018.obj" "./F2802x_GlobalVariableDefs.obj" "./FFT32_calc.obj" "./FFT32_init.obj" "./RFFT32_brev.obj" "./RFFT32_mag.obj" "./RFFT32_split.obj" "./RFFT32_win.obj" "./idle.obj" "./iir5biq16.obj" "./sel_q.obj" "../F2802x_Headers_BIOS.cmd" "../TMS320F28027.cmd" -l"configPkg/linker.cmd" -llibc.a 

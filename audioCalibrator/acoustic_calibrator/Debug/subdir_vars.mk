@@ -12,6 +12,17 @@ CMD_SRCS += \
 ../F2802x_Headers_BIOS.cmd \
 ../TMS320F28027.cmd 
 
+ASM_SRCS += \
+../DelayUs.asm \
+../FFT32_calc.asm \
+../FFT32_init.asm \
+../RFFT32_brev.asm \
+../RFFT32_mag.asm \
+../RFFT32_split.asm \
+../RFFT32_win.asm \
+../iir5biq16.asm \
+../sel_q.asm 
+
 C_SRCS += \
 ../DeviceInit_18Nov2018.c \
 ../F2802x_GlobalVariableDefs.c \
@@ -36,17 +47,46 @@ GEN_OPTS += \
 ./configPkg/compiler.opt 
 
 OBJS += \
+./DelayUs.obj \
 ./DeviceInit_18Nov2018.obj \
 ./F2802x_GlobalVariableDefs.obj \
-./idle.obj 
+./FFT32_calc.obj \
+./FFT32_init.obj \
+./RFFT32_brev.obj \
+./RFFT32_mag.obj \
+./RFFT32_split.obj \
+./RFFT32_win.obj \
+./idle.obj \
+./iir5biq16.obj \
+./sel_q.obj 
+
+ASM_DEPS += \
+./DelayUs.d \
+./FFT32_calc.d \
+./FFT32_init.d \
+./RFFT32_brev.d \
+./RFFT32_mag.d \
+./RFFT32_split.d \
+./RFFT32_win.d \
+./iir5biq16.d \
+./sel_q.d 
 
 GEN_MISC_DIRS__QUOTED += \
 "configPkg\" 
 
 OBJS__QUOTED += \
+"DelayUs.obj" \
 "DeviceInit_18Nov2018.obj" \
 "F2802x_GlobalVariableDefs.obj" \
-"idle.obj" 
+"FFT32_calc.obj" \
+"FFT32_init.obj" \
+"RFFT32_brev.obj" \
+"RFFT32_mag.obj" \
+"RFFT32_split.obj" \
+"RFFT32_win.obj" \
+"idle.obj" \
+"iir5biq16.obj" \
+"sel_q.obj" 
 
 C_DEPS__QUOTED += \
 "DeviceInit_18Nov2018.d" \
@@ -56,6 +96,28 @@ C_DEPS__QUOTED += \
 GEN_FILES__QUOTED += \
 "configPkg\linker.cmd" \
 "configPkg\compiler.opt" 
+
+ASM_DEPS__QUOTED += \
+"DelayUs.d" \
+"FFT32_calc.d" \
+"FFT32_init.d" \
+"RFFT32_brev.d" \
+"RFFT32_mag.d" \
+"RFFT32_split.d" \
+"RFFT32_win.d" \
+"iir5biq16.d" \
+"sel_q.d" 
+
+ASM_SRCS__QUOTED += \
+"../DelayUs.asm" \
+"../FFT32_calc.asm" \
+"../FFT32_init.asm" \
+"../RFFT32_brev.asm" \
+"../RFFT32_mag.asm" \
+"../RFFT32_split.asm" \
+"../RFFT32_win.asm" \
+"../iir5biq16.asm" \
+"../sel_q.asm" 
 
 C_SRCS__QUOTED += \
 "../DeviceInit_18Nov2018.c" \

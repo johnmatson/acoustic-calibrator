@@ -11,9 +11,9 @@ vpath %.c C:/ti/xdctools_3_51_01_18_core/packages/
 
 XOPTS = -I"C:/ti/xdctools_3_51_01_18_core/packages/" -Dxdc_target_types__=C:/ti/bios_6_76_04_02/packages/ti/targets/std.h -Dxdc_target_name__=C28_large
 
-BIOS_DEFS =  -Dti_sysbios_BIOS_swiEnabled__D=FALSE -Dti_sysbios_BIOS_taskEnabled__D=FALSE -Dti_sysbios_BIOS_clockEnabled__D=FALSE -Dti_sysbios_BIOS_runtimeCreatesEnabled__D=TRUE -Dti_sysbios_knl_Task_moduleStateCheckFlag__D=FALSE -Dti_sysbios_knl_Task_objectCheckFlag__D=FALSE -Dti_sysbios_hal_Hwi_DISABLE_ALL_HOOKS -Dti_sysbios_knl_Swi_DISABLE_ALL_HOOKS -Dti_sysbios_BIOS_smpEnabled__D=FALSE -Dti_sysbios_BIOS_mpeEnabled__D=FALSE -Dti_sysbios_Build_useHwiMacros -Dti_sysbios_knl_Swi_numPriorities__D=16 -Dti_sysbios_knl_Task_deleteTerminatedTasks__D=FALSE -Dti_sysbios_knl_Task_numPriorities__D=16 -Dti_sysbios_knl_Task_checkStackFlag__D=TRUE -Dti_sysbios_knl_Task_initStackFlag__D=TRUE -Dti_sysbios_knl_Task_DISABLE_ALL_HOOKS -Dti_sysbios_knl_Clock_TICK_SOURCE=ti_sysbios_knl_Clock_TickSource_TIMER -Dti_sysbios_knl_Clock_TICK_MODE=ti_sysbios_knl_Clock_TickMode_PERIODIC -Dti_sysbios_hal_Core_delegate_getId=ti_sysbios_hal_CoreNull_getId__E -Dti_sysbios_hal_Core_delegate_interruptCore=ti_sysbios_hal_CoreNull_interruptCore__E -Dti_sysbios_hal_Core_delegate_lock=ti_sysbios_hal_CoreNull_lock__E -Dti_sysbios_hal_Core_delegate_unlock=ti_sysbios_hal_CoreNull_unlock__E -Dti_sysbios_hal_Core_numCores__D=1 -Dti_sysbios_hal_CoreNull_numCores__D=1 -Dti_sysbios_utils_Load_taskEnabled__D=TRUE -Dti_sysbios_utils_Load_swiEnabled__D=FALSE -Dti_sysbios_utils_Load_hwiEnabled__D=FALSE -Dti_sysbios_family_c28_Hwi_dispatcherSwiSupport__D=FALSE -Dti_sysbios_family_c28_Hwi_dispatcherTaskSupport__D=FALSE -Dti_sysbios_family_c28_Hwi_dispatcherAutoNestingSupport__D=TRUE -Dti_sysbios_family_c28_Hwi_dispatcherIrpTrackingSupport__D=TRUE -Dti_sysbios_knl_Semaphore_supportsEvents__D=FALSE -Dti_sysbios_knl_Semaphore_supportsPriority__D=TRUE -Dxdc_runtime_Log_DISABLE_ALL -Dfar= 
+BIOS_DEFS =  -Dti_sysbios_BIOS_swiEnabled__D=TRUE -Dti_sysbios_BIOS_taskEnabled__D=TRUE -Dti_sysbios_BIOS_clockEnabled__D=FALSE -Dti_sysbios_BIOS_runtimeCreatesEnabled__D=TRUE -Dti_sysbios_knl_Task_moduleStateCheckFlag__D=FALSE -Dti_sysbios_knl_Task_objectCheckFlag__D=FALSE -Dti_sysbios_hal_Hwi_DISABLE_ALL_HOOKS -Dti_sysbios_knl_Swi_DISABLE_ALL_HOOKS -Dti_sysbios_BIOS_smpEnabled__D=FALSE -Dti_sysbios_BIOS_mpeEnabled__D=FALSE -Dti_sysbios_Build_useHwiMacros -Dti_sysbios_knl_Swi_numPriorities__D=16 -Dti_sysbios_knl_Task_deleteTerminatedTasks__D=FALSE -Dti_sysbios_knl_Task_numPriorities__D=16 -Dti_sysbios_knl_Task_checkStackFlag__D=TRUE -Dti_sysbios_knl_Task_initStackFlag__D=TRUE -Dti_sysbios_knl_Task_DISABLE_ALL_HOOKS -Dti_sysbios_knl_Clock_TICK_SOURCE=ti_sysbios_knl_Clock_TickSource_TIMER -Dti_sysbios_knl_Clock_TICK_MODE=ti_sysbios_knl_Clock_TickMode_PERIODIC -Dti_sysbios_hal_Core_delegate_getId=ti_sysbios_hal_CoreNull_getId__E -Dti_sysbios_hal_Core_delegate_interruptCore=ti_sysbios_hal_CoreNull_interruptCore__E -Dti_sysbios_hal_Core_delegate_lock=ti_sysbios_hal_CoreNull_lock__E -Dti_sysbios_hal_Core_delegate_unlock=ti_sysbios_hal_CoreNull_unlock__E -Dti_sysbios_hal_Core_numCores__D=1 -Dti_sysbios_hal_CoreNull_numCores__D=1 -Dti_sysbios_utils_Load_taskEnabled__D=TRUE -Dti_sysbios_utils_Load_swiEnabled__D=FALSE -Dti_sysbios_utils_Load_hwiEnabled__D=FALSE -Dti_sysbios_family_c28_Hwi_dispatcherSwiSupport__D=TRUE -Dti_sysbios_family_c28_Hwi_dispatcherTaskSupport__D=TRUE -Dti_sysbios_family_c28_Hwi_dispatcherAutoNestingSupport__D=TRUE -Dti_sysbios_family_c28_Hwi_dispatcherIrpTrackingSupport__D=TRUE -Dti_sysbios_knl_Semaphore_supportsEvents__D=FALSE -Dti_sysbios_knl_Semaphore_supportsPriority__D=TRUE -Dxdc_runtime_Log_DISABLE_ALL -Dfar= 
 
-CCOPTS = -v28 -DLARGE_MODEL=1 -ml -q -mo  --program_level_compile -o3 -g  -Dti_sysbios_knl_Clock_stopCheckNext__D=FALSE -Dti_sysbios_family_c28_Hwi_zeroLatencyIERMask__D=0U
+CCOPTS = -v28 -DLARGE_MODEL=1 -ml -q -mo  --program_level_compile -o3 -g  -Dti_sysbios_family_c28_Hwi_zeroLatencyIERMask__D=0U -Dti_sysbios_knl_Clock_stopCheckNext__D=FALSE -Dti_sysbios_knl_Task_minimizeLatency__D=FALSE
 
 BIOS_INC = -I"C:/ti/bios_6_76_04_02/packages/"
 ANNEX_INCS = 
@@ -45,13 +45,21 @@ c28_Hwi_disp_asm.obj: family/c28/Hwi_disp_asm.s28 makefile
 	@-$(call RM, $@)
 	$(ASSEMBLE) --output_file=c28_Hwi_disp_asm.obj
 
+c28_IntrinsicsSupport_asm.obj: family/c28/IntrinsicsSupport_asm.s28 makefile
+	@-$(call RM, $@)
+	$(ASSEMBLE) --output_file=c28_IntrinsicsSupport_asm.obj
 
-BIOS.obj: BIOS.c family/c28/TimestampProvider.c family/c28/Hwi.c family/c28/Timer.c knl/Idle.c gates/GateHwi.c hal/Hwi.c hal/Hwi_stack.c hal/Hwi_startup.c makefile
+c28_TaskSupport_asm.obj: family/c28/TaskSupport_asm.s28 makefile
+	@-$(call RM, $@)
+	$(ASSEMBLE) --output_file=c28_TaskSupport_asm.obj
+
+
+BIOS.obj: BIOS.c family/c28/TimestampProvider.c family/c28/Hwi.c family/c28/Timer.c family/c28/TaskSupport.c knl/Idle.c knl/Intrinsics.c knl/Queue.c knl/Swi.c knl/Task.c gates/GateHwi.c hal/Hwi.c hal/Hwi_stack.c hal/Hwi_startup.c makefile
 	@-$(call RM, $@)
 	@echo cl28L $< ...
 	@$(CC) $(BIOS_DEFS) $(XOPTS) $(INCS) $(subst makefile,,$^)
 
-sysbios.a28L: BIOS.obj c28_Hwi_asm.obj c28_Hwi_disp_asm.obj
+sysbios.a28L: BIOS.obj c28_Hwi_asm.obj c28_Hwi_disp_asm.obj c28_IntrinsicsSupport_asm.obj c28_TaskSupport_asm.obj
 	@-$(call RM, $@)
 	@echo ar28L $^ ...
 	@$(AR) $@ $^

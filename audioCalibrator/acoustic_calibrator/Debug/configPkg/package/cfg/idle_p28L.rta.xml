@@ -16,7 +16,7 @@
       <bufferSize>256</bufferSize>
     </metaArgs>
   </loggers>
-  <modMap-length>24</modMap-length>
+  <modMap-length>30</modMap-length>
   <modMap key="xdc.runtime.Assert">
     <id>32770</id>
     <logger>null</logger>
@@ -117,27 +117,57 @@
     <logger>xdc.runtime.LoggerBuf.Instance#0</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.BIOS">
+  <modMap key="ti.sysbios.family.c28.IntrinsicsSupport">
     <id>32793</id>
     <logger>xdc.runtime.LoggerBuf.Instance#0</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.knl.Idle">
-    <id>32795</id>
+  <modMap key="ti.sysbios.family.c28.TaskSupport">
+    <id>32794</id>
     <logger>xdc.runtime.LoggerBuf.Instance#0</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.gates.GateHwi">
+  <modMap key="ti.sysbios.knl.Idle">
+    <id>32796</id>
+    <logger>xdc.runtime.LoggerBuf.Instance#0</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
+  <modMap key="ti.sysbios.knl.Intrinsics">
     <id>32797</id>
     <logger>xdc.runtime.LoggerBuf.Instance#0</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.hal.Hwi">
+  <modMap key="ti.sysbios.knl.Queue">
+    <id>32798</id>
+    <logger>xdc.runtime.LoggerBuf.Instance#0</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
+  <modMap key="ti.sysbios.knl.Swi">
     <id>32799</id>
     <logger>xdc.runtime.LoggerBuf.Instance#0</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <evtMap-length>13</evtMap-length>
+  <modMap key="ti.sysbios.knl.Task">
+    <id>32800</id>
+    <logger>xdc.runtime.LoggerBuf.Instance#0</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
+  <modMap key="ti.sysbios.BIOS">
+    <id>32801</id>
+    <logger>xdc.runtime.LoggerBuf.Instance#0</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
+  <modMap key="ti.sysbios.gates.GateHwi">
+    <id>32803</id>
+    <logger>xdc.runtime.LoggerBuf.Instance#0</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
+  <modMap key="ti.sysbios.hal.Hwi">
+    <id>32805</id>
+    <logger>xdc.runtime.LoggerBuf.Instance#0</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
+  <evtMap-length>26</evtMap-length>
   <evtMap key="xdc.runtime.Log.L_construct">
     <id>3711</id>
     <msg>%3C--+construct%3A+%25p%28%27%25s%27%29</msg>
@@ -189,5 +219,57 @@
   <evtMap key="ti.sysbios.family.c28.Hwi.LD_end">
     <id>3957</id>
     <msg>LD_end%3A+hwi%3A+0x%25x</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Swi.LM_begin">
+    <id>3975</id>
+    <msg>LM_begin%3A+swi%3A+0x%25x%2C+func%3A+0x%25x%2C+preThread%3A+%25d</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Swi.LD_end">
+    <id>4022</id>
+    <msg>LD_end%3A+swi%3A+0x%25x</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Swi.LM_post">
+    <id>4040</id>
+    <msg>LM_post%3A+swi%3A+0x%25x%2C+func%3A+0x%25x%2C+pri%3A+%25d</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Task.LM_switch">
+    <id>4080</id>
+    <msg>LM_switch%3A+oldtsk%3A+0x%25x%2C+oldfunc%3A+0x%25x%2C+newtsk%3A+0x%25x%2C+newfunc%3A+0x%25x</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Task.LM_sleep">
+    <id>4148</id>
+    <msg>LM_sleep%3A+tsk%3A+0x%25x%2C+func%3A+0x%25x%2C+timeout%3A+%25d</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Task.LD_ready">
+    <id>4193</id>
+    <msg>LD_ready%3A+tsk%3A+0x%25x%2C+func%3A+0x%25x%2C+pri%3A+%25d</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Task.LD_block">
+    <id>4234</id>
+    <msg>LD_block%3A+tsk%3A+0x%25x%2C+func%3A+0x%25x</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Task.LM_yield">
+    <id>4266</id>
+    <msg>LM_yield%3A+tsk%3A+0x%25x%2C+func%3A+0x%25x%2C+currThread%3A+%25d</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Task.LM_setPri">
+    <id>4314</id>
+    <msg>LM_setPri%3A+tsk%3A+0x%25x%2C+func%3A+0x%25x%2C+oldPri%3A+%25d%2C+newPri+%25d</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Task.LD_exit">
+    <id>4370</id>
+    <msg>LD_exit%3A+tsk%3A+0x%25x%2C+func%3A+0x%25x</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Task.LM_setAffinity">
+    <id>4401</id>
+    <msg>LM_setAffinity%3A+tsk%3A+0x%25x%2C+func%3A+0x%25x%2C+oldCore%3A+%25d%2C+oldAffinity+%25d%2C+newAffinity+%25d</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Task.LM_schedule">
+    <id>4484</id>
+    <msg>LD_schedule%3A+coreId%3A+%25d%2C+workFlag%3A+%25d%2C+curSetLocal%3A+%25d%2C+curSetX%3A+%25d%2C+curMaskLocal%3A+%25d</msg>
+  </evtMap>
+  <evtMap key="ti.sysbios.knl.Task.LM_noWork">
+    <id>4570</id>
+    <msg>LD_noWork%3A+coreId%3A+%25d%2C+curSetLocal%3A+%25d%2C+curSetX%3A+%25d%2C+curMaskLocal%3A+%25d</msg>
   </evtMap>
 </xdc.runtime.Types.RtaDecoderData>
