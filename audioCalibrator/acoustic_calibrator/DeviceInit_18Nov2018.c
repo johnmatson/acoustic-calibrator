@@ -209,16 +209,27 @@ void DeviceInit(void)
     //enable ADC:
     AdcRegs.ADCCTL1.bit.ADCENABLE = 1;
 
-    //wait 1 ms after power-up before using the ADC:
+        //wait 1 ms after power-up before using the ADC:
     DelayUs(1000);
 
+    // configure ADC to simultaneous sample mode an ADCIN A2 and B2
+    AdcRegs.ADCSAMPLEMODE.bit.SIMULEN0 = 1;
+    AdcRegs.ADCSOC0CTL.bit.CHSEL = 0x2;//
+    AdcRegs.ADCSOC0CTL.bit.ACQPS = 0x6; //set SOC0 window to 7 ADCCLKs
+    AdcRegs.INTSEL1N2.bit.INT1SEL = 0; //connect interrupt ADCINT1 to EOC0
+    AdcRegs.INTSEL1N2.bit.INT2SEL = 1;// connect interrupt ADCINT2 to EOC1
+    AdcRegs.INTSEL1N2.bit.INT1E = 1; //enable interrupt ADCINT1
+    AdcRegs.INTSEL1N2.bit.INT2E = 1;
+
+
+    /*
     //configure to sample on-chip temperature sensor:
     AdcRegs.ADCCTL1.bit.TEMPCONV = 1; //connect A5 to temp sensor
     AdcRegs.ADCSOC0CTL.bit.CHSEL = 5; //set SOC0 to sample A5
     AdcRegs.ADCSOC0CTL.bit.ACQPS = 0x6; //set SOC0 window to 7 ADCCLKs
     AdcRegs.INTSEL1N2.bit.INT1SEL = 0; //connect interrupt ADCINT1 to EOC0
     AdcRegs.INTSEL1N2.bit.INT1E = 1; //enable interrupt ADCINT1
-
+     */
 
 	EDIS;	// restore protection of registers
 

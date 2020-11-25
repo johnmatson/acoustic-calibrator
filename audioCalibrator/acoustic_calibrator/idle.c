@@ -15,7 +15,7 @@
 #define xdc__strict//gets rid of #303-D typedef warning re Uint16, Uint32
 
 #include <xdc/std.h>
-//#include <xdc/runtime/Log.h>
+#include <xdc/runtime/System.h>
 #include <ti/sysbios/BIOS.h>
 #include <ti/sysbios/knl/Swi.h>
 #include <ti/sysbios/knl/Task.h>
@@ -40,9 +40,13 @@ int16 reg_fft_2[FFT_SIZE];// buffer for FFT 2
 int16 gain[BAND_QUANTITY];// buffer containing the gains of the 4 filters.
 
 int16 k = 0;// circular buffer position variable
+int16 f = 0;// position variable for FFT filling
 int16 i;// for loop iterator
 int16 n;// local circular buffer variable
 int16 ind;// buffer index variable
+bool fft_flag = 0;// bool used for fft buffer control
+
+int16 count;// count for testing
 
 /*
  *  ======== main ========
@@ -62,10 +66,6 @@ Int main()
     return(0);
 }
 
-/*
- *  ======== myTickFxn ========
- *  Timer Tick function that increments a counter, and sets the isrFlag.
- */
 Void ADCtimer(UArg arg)
 {
     tickCount += 1;    /* increment the counter */
@@ -83,10 +83,12 @@ Void myIdleFxn(Void)
 {
     if (isrFlag == TRUE) {
         isrFlag = FALSE;
+        System_printf("temperature = %d\n", newsample1);
     }
 }
 
-//HWI handler for the ADC results
+// HWI handlers for the ADC results
+// vector ID 32 is ADCINT1
 void ADC_1(void) {
     //read ADC value
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //clear interrupt flag
@@ -94,22 +96,20 @@ void ADC_1(void) {
     newsample1 = AdcResult.ADCRESULT0; //get reading
 }
 
-/*
+// vector ID 33 is ADCINT2
 void ADC_2(void) {
     //read ADC value
-    AdcRegs.ADCSOCFRC1.all = 0x1; //start conversion via software
-    while(AdcRegs.ADCINTFLG.bit.ADCINT1 == 0)
-        {
-        ; //wait for interrupt flag to be set
-        }
-    AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //clear interrupt flag
-
+    AdcRegs.ADCINTFLGCLR.bit.ADCINT2 = 1; //clear interrupt flag
+    count++;
     newsample2 = AdcResult.ADCRESULT1; //get reading
 }
-*/
+
 
 //TSK handler calculates both FFTs, then modifies the gain
 void fft(void) {
 
 }
 
+void filter(void) {
+
+}
