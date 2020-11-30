@@ -14,13 +14,72 @@
 
 #define xdc__strict//gets rid of #303-D typedef warning re Uint16, Uint32
 
+// filter coefficents for GEQ 1
+#define IIR16_1_COEFF {\
+	-1543,6884,195,390,195,\
+	-2731,7723,668,1337,668,\
+	-5657,9793,12750,25499,12750}
+#define IIR16_1_ISF 2851
+#define IIR16_1_NBIQ 3
+#define IIR16_1_QFMAT 13
+
+// filter coefficents for GEQ 2
+#define IIR16_2_COEFF {\
+	-3393,4799,799,1598,799,\
+    -5340,645,-3493,0,3493,\
+    -6002,9687,14261,-28522,14261}
+#define IIR16_2_ISF 3587
+#define IIR16_2_NBIQ 3
+#define IIR16_2_QFMAT 13
+
+// filter coefficents for GEQ 3
+#define IIR16_3_COEFF {\
+    -3393,-4799,799,-1598,799,\
+    -5340,-645,-3493,0,3493,\
+    -6002,-9687,14261,28522,14261}
+#define IIR16_3_ISF 3587
+#define IIR16_3_NBIQ 3
+#define IIR16_3_QFMAT 13
+
+// filter coefficents for GEQ 4
+#define IIR16_4_COEFF {\
+    -1543,-6884,195,-390,195,\
+    -2731,-7723,668,-1337,668,\
+    -5657,-9793,12750,-25499,12750}
+#define IIR16_4_ISF 2851
+#define IIR16_4_NBIQ 3
+#define IIR16_4_QFMAT 13
+
 #include <xdc/std.h>
 #include <xdc/runtime/System.h>
 #include <ti/sysbios/BIOS.h>
 #include <ti/sysbios/knl/Swi.h>
 #include <ti/sysbios/knl/Task.h>
 
+// filter includes
+#include "device.h"
+#include <filter.h>
+#include "math.h"
+
 #include "Peripheral_Headers/F2802x_Device.h"
+
+// create instances of IIR5BIQD16 module for each filter
+IIR5BIQ16 iir1 = IIR5BIQ16_DEFAULTS;
+IIR5BIQ16 iir2 = IIR5BIQ16_DEFAULTS;
+IIR5BIQ16 iir3 = IIR5BIQ16_DEFAULTS;
+IIR5BIQ16 iir4 = IIR5BIQ16_DEFAULTS;
+
+// create delay buffers for each filter
+int dbuffer1[2*IIR16_1_NBIQ];
+int dbuffer2[2*IIR16_2_NBIQ];
+int dbuffer3[2*IIR16_3_NBIQ];
+int dbuffer4[2*IIR16_4_NBIQ];
+
+// create and popualte coefficient varibales for each filter
+const int coeff1[5*IIR16_1_NBIQ] = IIR16_1_COEFF;
+const int coeff2[5*IIR16_2_NBIQ] = IIR16_2_COEFF;
+const int coeff3[5*IIR16_3_NBIQ] = IIR16_3_COEFF;
+const int coeff4[5*IIR16_4_NBIQ] = IIR16_4_COEFF;
 
 //function prototypes:
 extern void DeviceInit(void);
@@ -53,7 +112,7 @@ int16 count;// count for testing
  */
 Int main()
 {
-    // test comment
+    
 
     /* 
      * Start BIOS
@@ -110,6 +169,9 @@ void fft(void) {
 
 }
 
+// SWI handler passes input signal 1 through four
+// GEQ filters and sums output values with associated
+// gains.
 void filter(void) {
 
 }
