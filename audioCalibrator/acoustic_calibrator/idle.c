@@ -206,5 +206,23 @@ void fft(void) {
 // GEQ filters and sums output values with associated
 // gains.
 void filter(void) {
-    
+    // ADD Q-FORMAT CONVERSION HERE?
+
+    iir1.input = xn;
+    iir1.calc(&iir1);
+    yn1 = iir1.output;
+
+    iir2.input = xn;
+    iir2.calc(&iir2);
+    yn2 = iir2.output;
+
+    iir3.input = xn;
+    iir3.calc(&iir3);
+    yn3 = iir3.output;
+
+    iir4.input = xn;
+    iir4.calc(&iir4);
+    yn4 = iir4.output;
+
+    // ADD SUMMING AND OUTPUT CONVERSION HERE
 }
