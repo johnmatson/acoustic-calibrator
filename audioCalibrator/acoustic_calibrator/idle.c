@@ -81,6 +81,38 @@ const int coeff2[5*IIR16_2_NBIQ] = IIR16_2_COEFF;
 const int coeff3[5*IIR16_3_NBIQ] = IIR16_3_COEFF;
 const int coeff4[5*IIR16_4_NBIQ] = IIR16_4_COEFF;
 
+// initialize filter 1
+iir1.dbuffer_ptr  = (int16_t *)dbuffer1;
+iir1.coeff_ptr    = (int16_t *)coeff1;
+iir1.qfmat        = IIR16_1_QFMAT;
+iir1.nbiq         = IIR16_1_NBIQ;
+iir1.isf          = IIR16_1_ISF;
+iir1.init(&iir1);
+
+// initialize filter 2
+iir2.dbuffer_ptr  = (int16_t *)dbuffer2;
+iir2.coeff_ptr    = (int16_t *)coeff2;
+iir2.qfmat        = IIR16_2_QFMAT;
+iir2.nbiq         = IIR16_2_NBIQ;
+iir2.isf          = IIR16_2_ISF;
+iir2.init(&iir2);
+
+// initialize filter 3
+iir3.dbuffer_ptr  = (int16_t *)dbuffer3;
+iir3.coeff_ptr    = (int16_t *)coeff3;
+iir3.qfmat        = IIR16_3_QFMAT;
+iir3.nbiq         = IIR16_3_NBIQ;
+iir3.isf          = IIR16_3_ISF;
+iir3.init(&iir3);
+
+// initialize filter 4
+iir4.dbuffer_ptr  = (int16_t *)dbuffer4;
+iir4.coeff_ptr    = (int16_t *)coeff4;
+iir4.qfmat        = IIR16_4_QFMAT;
+iir4.nbiq         = IIR16_4_NBIQ;
+iir4.isf          = IIR16_4_ISF;
+iir4.init(&iir4);
+
 //function prototypes:
 extern void DeviceInit(void);
 
@@ -89,23 +121,24 @@ volatile Bool isrFlag = FALSE;
 
 volatile int16 tickCount = 0;
 
-int16 newsample1;// sample from ADC_1
-int16 newsample2;// sample from ADC_2
-int16 reg_in[FILTER_SIZE];// buffer containing values to be filtered
-int16 reg_out[FILTER_SIZE];// buffer containing filtered  values
-int16 reg_fft_1[FFT_SIZE];// buffer for FFT 1
-int16 reg_fft_2[FFT_SIZE];// buffer for FFT 2
+int16 newsample1; // sample from ADC_1
+int16 newsample2; // sample from ADC_2
+int16 xn; // pre-filter input sample
+int16 yn1, yn2, yn3, yn4; // post-filter pre-sum output samples
+int16 yn; // post-filter post-sum output sample
+int16 reg_fft_1[FFT_SIZE]; // buffer for FFT 1
+int16 reg_fft_2[FFT_SIZE]; // buffer for FFT 2
 
-int16 gain[BAND_QUANTITY];// buffer containing the gains of the 4 filters.
+int16 gain[BAND_QUANTITY]; // buffer containing the gains of the 4 filters.
 
-int16 k = 0;// circular buffer position variable
-int16 f = 0;// position variable for FFT filling
-int16 i;// for loop iterator
-int16 n;// local circular buffer variable
-int16 ind;// buffer index variable
-bool fft_flag = 0;// bool used for fft buffer control
+int16 k = 0; // circular buffer position variable
+int16 f = 0; // position variable for FFT filling
+int16 i; // for loop iterator
+int16 n; // local circular buffer variable
+int16 ind; // buffer index variable
+bool fft_flag = 0; // bool used for fft buffer control
 
-int16 count;// count for testing
+int16 count; // count for testing
 
 /*
  *  ======== main ========
@@ -173,5 +206,5 @@ void fft(void) {
 // GEQ filters and sums output values with associated
 // gains.
 void filter(void) {
-
+    
 }
