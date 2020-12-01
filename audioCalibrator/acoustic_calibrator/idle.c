@@ -17,42 +17,6 @@
 
 #define xdc__strict//gets rid of #303-D typedef warning re Uint16, Uint32
 
-// filter coefficents for GEQ 1
-#define IIR16_1_COEFF {\
-	-1543,6884,195,390,195,\
-	-2731,7723,668,1337,668,\
-	-5657,9793,12750,25499,12750}
-#define IIR16_1_ISF 2851
-#define IIR16_1_NBIQ 3
-#define IIR16_1_QFMAT 13
-
-// filter coefficents for GEQ 2
-#define IIR16_2_COEFF {\
-	-3393,4799,799,1598,799,\
-    -5340,645,-3493,0,3493,\
-    -6002,9687,14261,-28522,14261}
-#define IIR16_2_ISF 3587
-#define IIR16_2_NBIQ 3
-#define IIR16_2_QFMAT 13
-
-// filter coefficents for GEQ 3
-#define IIR16_3_COEFF {\
-    -3393,-4799,799,-1598,799,\
-    -5340,-645,-3493,0,3493,\
-    -6002,-9687,14261,28522,14261}
-#define IIR16_3_ISF 3587
-#define IIR16_3_NBIQ 3
-#define IIR16_3_QFMAT 13
-
-// filter coefficents for GEQ 4
-#define IIR16_4_COEFF {\
-    -1543,-6884,195,-390,195,\
-    -2731,-7723,668,-1337,668,\
-    -5657,-9793,12750,-25499,12750}
-#define IIR16_4_ISF 2851
-#define IIR16_4_NBIQ 3
-#define IIR16_4_QFMAT 13
-
 #include <xdc/std.h>
 #include <xdc/runtime/System.h>
 #include <ti/sysbios/BIOS.h>
@@ -65,6 +29,7 @@
 //#include "device.h"
 #include <filter.h>
 #include "math.h"
+#include "coeffs.h"
 
 #include "Peripheral_Headers/F2802x_Device.h"
 
@@ -74,59 +39,27 @@
 #pragma DATA_SECTION(iir2, "iirfilt");
 #pragma DATA_SECTION(iir3, "iirfilt");
 #pragma DATA_SECTION(iir4, "iirfilt");
+
 IIR5BIQ16 iir1 = IIR5BIQ16_DEFAULTS;
 IIR5BIQ16 iir2 = IIR5BIQ16_DEFAULTS;
 IIR5BIQ16 iir3 = IIR5BIQ16_DEFAULTS;
 IIR5BIQ16 iir4 = IIR5BIQ16_DEFAULTS;
-
 // create delay buffers for each filter and place in
 // "iirldb" section
 #pragma DATA_SECTION(dbuffer1, "iirldb");
 #pragma DATA_SECTION(dbuffer2, "iirldb");
 #pragma DATA_SECTION(dbuffer3, "iirldb");
 #pragma DATA_SECTION(dbuffer4, "iirldb");
-int dbuffer1[2*IIR16_1_NBIQ];
-int dbuffer2[2*IIR16_2_NBIQ];
-int dbuffer3[2*IIR16_3_NBIQ];
-int dbuffer4[2*IIR16_4_NBIQ];
+int16_t dbuffer1[2*IIR16_1_NBIQ];
+int16_t dbuffer2[2*IIR16_2_NBIQ];
+int16_t dbuffer3[2*IIR16_3_NBIQ];
+int16_t dbuffer4[2*IIR16_4_NBIQ];
 
 // create and populate coefficient variables for each filter
-const int coeff1[5*IIR16_1_NBIQ] = IIR16_1_COEFF;
-const int coeff2[5*IIR16_2_NBIQ] = IIR16_2_COEFF;
-const int coeff3[5*IIR16_3_NBIQ] = IIR16_3_COEFF;
-const int coeff4[5*IIR16_4_NBIQ] = IIR16_4_COEFF;
-
-// initialize filter 1
-iir1.dbuffer_ptr  = (int16_t *)dbuffer1;
-iir1.coeff_ptr    = (int16_t *)coeff1;
-iir1.qfmat        = IIR16_1_QFMAT;
-iir1.nbiq         = IIR16_1_NBIQ;
-iir1.isf          = IIR16_1_ISF;
-iir1.init(&iir1);
-
-// initialize filter 2
-iir2.dbuffer_ptr  = (int16_t *)dbuffer2;
-iir2.coeff_ptr    = (int16_t *)coeff2;
-iir2.qfmat        = IIR16_2_QFMAT;
-iir2.nbiq         = IIR16_2_NBIQ;
-iir2.isf          = IIR16_2_ISF;
-iir2.init(&iir2);
-
-// initialize filter 3
-iir3.dbuffer_ptr  = (int16_t *)dbuffer3;
-iir3.coeff_ptr    = (int16_t *)coeff3;
-iir3.qfmat        = IIR16_3_QFMAT;
-iir3.nbiq         = IIR16_3_NBIQ;
-iir3.isf          = IIR16_3_ISF;
-iir3.init(&iir3);
-
-// initialize filter 4
-iir4.dbuffer_ptr  = (int16_t *)dbuffer4;
-iir4.coeff_ptr    = (int16_t *)coeff4;
-iir4.qfmat        = IIR16_4_QFMAT;
-iir4.nbiq         = IIR16_4_NBIQ;
-iir4.isf          = IIR16_4_ISF;
-iir4.init(&iir4);
+const int16_t coeff1[5*IIR16_1_NBIQ] = IIR16_1_COEFF;
+const int16_t coeff2[5*IIR16_2_NBIQ] = IIR16_2_COEFF;
+const int16_t coeff3[5*IIR16_3_NBIQ] = IIR16_3_COEFF;
+const int16_t coeff4[5*IIR16_4_NBIQ] = IIR16_4_COEFF;
 
 //function prototypes:
 extern void DeviceInit(void);
@@ -143,11 +76,11 @@ int16 yn1, yn2, yn3, yn4; // post-filter pre-sum output samples
 int16 yn; // post-filter post-sum output sample
 
 #pragma DATA_SECTION(fftin1, "FFTipcbsrc");
-int16 fftin1[FFT_SIZE]; // buffer for FFT 1
+int32 fftin1[FFT_SIZE]; // buffer for FFT 1
 #pragma DATA_SECTION(fftout1, "FFTipcb");
-int16 fftout1[FFT_SIZE]; // buffer for FFT 2
+int32 fftout1[FFT_SIZE]; // buffer for FFT 2
 #pragma DATA_SECTION(fftmag, "FFTmagbuf");
-int16 fftmag
+int32 fftmag[FFT_SIZE];
 
 int16 gain[BAND_QUANTITY]; // buffer containing the gains of the 4 filters.
 
@@ -158,6 +91,11 @@ int16 n; // local circular buffer variable
 int16 ind; // buffer index variable
 int16 fft_flag = 0; // bool used for fft buffer control
 
+// Declare and initialize the structure object.
+// Use the RFFT32_<n>P_DEFUALTS in the FFT header file if
+// unsure as to what values to program the object with.
+RFFT32  rfft = RFFT32_32P_DEFAULTS;
+
 int16 count; // count for testing
 
 /*
@@ -166,6 +104,40 @@ int16 count; // count for testing
 Int main()
 {
     
+    // initialize filter 1
+    iir1.dbuffer_ptr  = (int16_t *)dbuffer1;
+    iir1.coeff_ptr    = (int16_t *)coeff1;
+    iir1.qfmat        = IIR16_1_QFMAT;
+    iir1.nbiq         = IIR16_1_NBIQ;
+    iir1.isf          = IIR16_1_ISF;
+    iir1.init(&iir1);
+
+    // initialize filter 2
+    iir2.dbuffer_ptr  = (int16_t *)dbuffer2;
+    iir2.coeff_ptr    = (int16_t *)coeff2;
+    iir2.qfmat        = IIR16_2_QFMAT;
+    iir2.nbiq         = IIR16_2_NBIQ;
+    iir2.isf          = IIR16_2_ISF;
+    iir2.init(&iir2);
+
+    // initialize filter 3
+    iir3.dbuffer_ptr  = (int16_t *)dbuffer3;
+    iir3.coeff_ptr    = (int16_t *)coeff3;
+    iir3.qfmat        = IIR16_3_QFMAT;
+    iir3.nbiq         = IIR16_3_NBIQ;
+    iir3.isf          = IIR16_3_ISF;
+    iir3.init(&iir3);
+
+    // initialize filter 4
+    iir4.dbuffer_ptr  = (int16_t *)dbuffer4;
+    iir4.coeff_ptr    = (int16_t *)coeff4;
+    iir4.qfmat        = IIR16_4_QFMAT;
+    iir4.nbiq         = IIR16_4_NBIQ;
+    iir4.isf          = IIR16_4_ISF;
+    iir4.init(&iir4);
+
+
+
     /* 
      * Start BIOS
      * Perform a few final initializations and then
@@ -173,15 +145,9 @@ Int main()
      * installed Idle functions.
      */
 
-    //initialize arrays:
-    for(i = 0; i < FILTER_SIZE; i++) {
-        reg_in[i] = 0;
-        reg_out[i] = 0;
-    }
-
     for(i = 0; i < (FFT_SIZE); i++) {
-        ipcbsrc[i] = 0;
-        ipcb[i] = 0;
+        fftin1[i] = 0;
+        fftout1[i] = 0;
         fftmag[i] = 0;
 
         //fft_in_2[i] = 0;

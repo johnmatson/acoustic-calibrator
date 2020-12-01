@@ -25,5 +25,4 @@
 #include <fir.h>
 #include <iir.h>
 
- 
 #endif //_FILTER_H_
