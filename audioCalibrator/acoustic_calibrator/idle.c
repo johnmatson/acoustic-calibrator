@@ -146,7 +146,7 @@ int16 yn; // post-filter post-sum output sample
 int16 fftin1[FFT_SIZE]; // buffer for FFT 1
 #pragma DATA_SECTION(fftout1, "FFTipcb");
 int16 fftout1[FFT_SIZE]; // buffer for FFT 2
-#pragma DATA_SECTION(ipcb, "FFTmagbuf");
+#pragma DATA_SECTION(fftmag, "FFTmagbuf");
 int16 fftmag
 
 int16 gain[BAND_QUANTITY]; // buffer containing the gains of the 4 filters.
@@ -182,7 +182,7 @@ Int main()
     for(i = 0; i < (FFT_SIZE); i++) {
         ipcbsrc[i] = 0;
         ipcb[i] = 0;
-        magnit[i] = 0;
+        fftmag[i] = 0;
 
         //fft_in_2[i] = 0;
     }
@@ -219,7 +219,7 @@ Void myIdleFxn(Void)
         RFFT32_brev(fftin1, fftout1, FFT_SIZE); // real FFT bit reversing
 
         rfft.ipcbptr = fftout1;                  // FFT computation buffer
-        rfft.magptr  = magnit;               // Magnitude output buffer
+        rfft.magptr  = fftmag;               // Magnitude output buffer
         //rfft.winptr  = (long *)win;           // Window coefficient array
         rfft.init(&rfft);                     // Twiddle factor pointer initialization
 
