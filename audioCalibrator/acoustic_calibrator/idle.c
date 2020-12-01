@@ -124,37 +124,6 @@ extern void DeviceInit(void);
 /* Flag used by idle function to check if interrupt occurred */
 volatile Bool isrFlag = FALSE;
 
-<<<<<<< HEAD
-int16 newsample1;// sample from ADC_1
-int16 newsample2;// sample from ADC_2
-int16 reg_in[FILTER_SIZE];// buffer containing values to be filtered
-int16 reg_out[FILTER_SIZE];// buffer containing filtered  values
-
-// Create the FFT buffers, ipcb and ipcbsrc, in sections with the same name
-#pragma DATA_SECTION(ipcb, "FFTipcb");
-int32_t ipcb[FFT_SIZE];
-
-#pragma DATA_SECTION(ipcbsrc, "FFTipcbsrc");
-int32_t ipcbsrc[FFT_SIZE];
-
-#pragma DATA_SECTION(magnit, "FFTmagbuf");
-int32_t magnit[FFT_SIZE];
-
-// Declare and initialize the structure object.
-// Use the RFFT32_<n>P_DEFUALTS in the FFT header file if
-// unsure as to what values to program the object with.
-RFFT32  rfft = RFFT32_32P_DEFAULTS;
-
-int16 gain[BAND_QUANTITY];// buffer containing the gains of the filters.
-
-int16 k;// circular buffer position variable
-int16 i;// for loop iterator
-int16 n;// local circular buffer variable
-int16 ind;// buffer index variable
-int16 fft_flag = 0;// integer used for fft buffer control
-
-int16 count = 0;// count for testing
-=======
 volatile int16 tickCount = 0;
 
 int16 newsample1; // sample from ADC_1
@@ -175,18 +144,14 @@ int16 ind; // buffer index variable
 bool fft_flag = 0; // bool used for fft buffer control
 
 int16 count; // count for testing
->>>>>>> c8effe65a171243d1cf0a4b48a80f4e0f63aa758
 
 /*
  *  ======== main ========
  */
 Int main()
 {
-<<<<<<< HEAD
-=======
     
 
->>>>>>> c8effe65a171243d1cf0a4b48a80f4e0f63aa758
     /* 
      * Start BIOS
      * Perform a few final initializations and then
