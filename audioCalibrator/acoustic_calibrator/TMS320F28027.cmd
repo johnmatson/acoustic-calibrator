@@ -128,11 +128,15 @@ SECTIONS
     IQmath              : > FLASH       PAGE = 0            /* Math Code */
     IQmathTables        : > IQTABLES    PAGE = 0, TYPE = NOLOAD
 
-	FFTtf    			: > FLASH					PAGE = 0
-    FFTipcb ALIGN(64) : {} > M01SARAM | L0SARAM		PAGE = 1
+	FFTtf    			: > FLASH					    PAGE = 0
+    FFTipcb ALIGN(64)   : {} > M01SARAM | L0SARAM		PAGE = 1
     //FFTipcb           : {} > M01SARAM | L0SARAM		PAGE = 1
-    FFTipcbsrc   	  : {} > M01SARAM | L0SARAM 		PAGE = 1
-    FFTmagbuf   	  : {} > M01SARAM | L0SARAM 		PAGE = 1
+    FFTipcbsrc   	    : {} > M01SARAM | L0SARAM 		PAGE = 1
+    FFTmagbuf   	    : {} > M01SARAM | L0SARAM 		PAGE = 1
+
+    iirfilt 			: > M01SARAM | L0SARAM          PAGE = 1, ALIGN(0x400)
+    iirldb 			    : > M01SARAM | L0SARAM          PAGE = 1, ALIGN(0x400)
+    coefffilt		    : > M01SARAM | L0SARAM          PAGE = 1, ALIGN(0x400)
 
 
 
