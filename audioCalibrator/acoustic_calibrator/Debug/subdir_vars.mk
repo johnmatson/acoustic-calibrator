@@ -16,7 +16,9 @@ ASM_SRCS += \
 ../DelayUs.asm \
 ../FFT32_calc.asm \
 ../FFT32_init.asm \
+../FFT32_izero.asm \
 ../RFFT32_brev.asm \
+../RFFT32_brev_RT.asm \
 ../RFFT32_mag.asm \
 ../RFFT32_split.asm \
 ../RFFT32_win.asm \
@@ -52,7 +54,9 @@ OBJS += \
 ./F2802x_GlobalVariableDefs.obj \
 ./FFT32_calc.obj \
 ./FFT32_init.obj \
+./FFT32_izero.obj \
 ./RFFT32_brev.obj \
+./RFFT32_brev_RT.obj \
 ./RFFT32_mag.obj \
 ./RFFT32_split.obj \
 ./RFFT32_win.obj \
@@ -64,7 +68,9 @@ ASM_DEPS += \
 ./DelayUs.d \
 ./FFT32_calc.d \
 ./FFT32_init.d \
+./FFT32_izero.d \
 ./RFFT32_brev.d \
+./RFFT32_brev_RT.d \
 ./RFFT32_mag.d \
 ./RFFT32_split.d \
 ./RFFT32_win.d \
@@ -80,7 +86,9 @@ OBJS__QUOTED += \
 "F2802x_GlobalVariableDefs.obj" \
 "FFT32_calc.obj" \
 "FFT32_init.obj" \
+"FFT32_izero.obj" \
 "RFFT32_brev.obj" \
+"RFFT32_brev_RT.obj" \
 "RFFT32_mag.obj" \
 "RFFT32_split.obj" \
 "RFFT32_win.obj" \
@@ -101,7 +109,9 @@ ASM_DEPS__QUOTED += \
 "DelayUs.d" \
 "FFT32_calc.d" \
 "FFT32_init.d" \
+"FFT32_izero.d" \
 "RFFT32_brev.d" \
+"RFFT32_brev_RT.d" \
 "RFFT32_mag.d" \
 "RFFT32_split.d" \
 "RFFT32_win.d" \
@@ -112,7 +122,9 @@ ASM_SRCS__QUOTED += \
 "../DelayUs.asm" \
 "../FFT32_calc.asm" \
 "../FFT32_init.asm" \
+"../FFT32_izero.asm" \
 "../RFFT32_brev.asm" \
+"../RFFT32_brev_RT.asm" \
 "../RFFT32_mag.asm" \
 "../RFFT32_split.asm" \
 "../RFFT32_win.asm" \

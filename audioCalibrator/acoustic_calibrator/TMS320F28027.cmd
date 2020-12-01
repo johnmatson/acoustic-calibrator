@@ -128,6 +128,12 @@ SECTIONS
     IQmath              : > FLASH       PAGE = 0            /* Math Code */
     IQmathTables        : > IQTABLES    PAGE = 0, TYPE = NOLOAD
 
+	FFTtf    			: > FLASH					PAGE = 0
+    FFTipcb ALIGN(64) : {} > M01SARAM | L0SARAM		PAGE = 1
+    //FFTipcb           : {} > M01SARAM | L0SARAM		PAGE = 1
+    FFTipcbsrc   	  : {} > M01SARAM | L0SARAM 		PAGE = 1
+    FFTmagbuf   	  : {} > M01SARAM | L0SARAM 		PAGE = 1
+
     /*
      *  Uncomment the section below if calling the IQNexp() or IQexp()
      *  functions from the IQMath.lib library in order to utilize the

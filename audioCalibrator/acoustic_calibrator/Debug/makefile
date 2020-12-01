@@ -15,7 +15,9 @@ ORDERED_OBJS += \
 "./F2802x_GlobalVariableDefs.obj" \
 "./FFT32_calc.obj" \
 "./FFT32_init.obj" \
+"./FFT32_izero.obj" \
 "./RFFT32_brev.obj" \
+"./RFFT32_brev_RT.obj" \
 "./RFFT32_mag.obj" \
 "./RFFT32_split.obj" \
 "./RFFT32_win.obj" \
@@ -166,9 +168,9 @@ acoustic_calibrator.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "DelayUs.obj" "DeviceInit_18Nov2018.obj" "F2802x_GlobalVariableDefs.obj" "FFT32_calc.obj" "FFT32_init.obj" "RFFT32_brev.obj" "RFFT32_mag.obj" "RFFT32_split.obj" "RFFT32_win.obj" "idle.obj" "iir5biq16.obj" "sel_q.obj" 
+	-$(RM) "DelayUs.obj" "DeviceInit_18Nov2018.obj" "F2802x_GlobalVariableDefs.obj" "FFT32_calc.obj" "FFT32_init.obj" "FFT32_izero.obj" "RFFT32_brev.obj" "RFFT32_brev_RT.obj" "RFFT32_mag.obj" "RFFT32_split.obj" "RFFT32_win.obj" "idle.obj" "iir5biq16.obj" "sel_q.obj" 
 	-$(RM) "DeviceInit_18Nov2018.d" "F2802x_GlobalVariableDefs.d" "idle.d" 
-	-$(RM) "DelayUs.d" "FFT32_calc.d" "FFT32_init.d" "RFFT32_brev.d" "RFFT32_mag.d" "RFFT32_split.d" "RFFT32_win.d" "iir5biq16.d" "sel_q.d" 
+	-$(RM) "DelayUs.d" "FFT32_calc.d" "FFT32_init.d" "FFT32_izero.d" "RFFT32_brev.d" "RFFT32_brev_RT.d" "RFFT32_mag.d" "RFFT32_split.d" "RFFT32_win.d" "iir5biq16.d" "sel_q.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '

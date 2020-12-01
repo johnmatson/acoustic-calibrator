@@ -13,11 +13,11 @@ extern const ti_sysbios_family_c28_Hwi_Handle hwi0;
 #include <ti/sysbios/knl/Swi.h>
 extern const ti_sysbios_knl_Swi_Handle swi0;
 
-#include <ti/sysbios/knl/Task.h>
-extern const ti_sysbios_knl_Task_Handle task0;
-
 #include <ti/sysbios/family/c28/Hwi.h>
 extern const ti_sysbios_family_c28_Hwi_Handle hwi1;
+
+#include <ti/sysbios/family/c28/Timer.h>
+extern const ti_sysbios_family_c28_Timer_Handle fft_timer;
 
 extern int xdc_runtime_Startup__EXECFXN__C;
 
