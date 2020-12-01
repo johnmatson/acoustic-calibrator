@@ -131,8 +131,13 @@ int16 newsample2; // sample from ADC_2
 int16 xn; // pre-filter input sample
 int16 yn1, yn2, yn3, yn4; // post-filter pre-sum output samples
 int16 yn; // post-filter post-sum output sample
-int16 reg_fft_1[FFT_SIZE]; // buffer for FFT 1
-int16 reg_fft_2[FFT_SIZE]; // buffer for FFT 2
+
+#pragma DATA_SECTION(fftin1, "FFTipcbsrc");
+int16 fftin1[FFT_SIZE]; // buffer for FFT 1
+#pragma DATA_SECTION(fftout1, "FFTipcb");
+int16 fftout1[FFT_SIZE]; // buffer for FFT 2
+#pragma DATA_SECTION(ipcb, "FFTmagbuf");
+int16 fftmag
 
 int16 gain[BAND_QUANTITY]; // buffer containing the gains of the 4 filters.
 
@@ -141,7 +146,7 @@ int16 f = 0; // position variable for FFT filling
 int16 i; // for loop iterator
 int16 n; // local circular buffer variable
 int16 ind; // buffer index variable
-bool fft_flag = 0; // bool used for fft buffer control
+int16 fft_flag = 0; // bool used for fft buffer control
 
 int16 count; // count for testing
 
@@ -151,7 +156,6 @@ int16 count; // count for testing
 Int main()
 {
     
-
     /* 
      * Start BIOS
      * Perform a few final initializations and then
