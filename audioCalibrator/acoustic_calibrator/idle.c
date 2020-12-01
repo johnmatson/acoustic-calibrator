@@ -69,22 +69,22 @@
 #include "Peripheral_Headers/F2802x_Device.h"
 
 // create instances of IIR5BIQD16 module for each filter
-// and place in corresponding "iirfiltX" section
-#pragma DATA_SECTION(iir1, "iirfilt1");
-#pragma DATA_SECTION(iir2, "iirfilt2");
-#pragma DATA_SECTION(iir3, "iirfilt3");
-#pragma DATA_SECTION(iir4, "iirfilt4");
+// and place in "iirfilt" section
+#pragma DATA_SECTION(iir1, "iirfilt");
+#pragma DATA_SECTION(iir2, "iirfilt");
+#pragma DATA_SECTION(iir3, "iirfilt");
+#pragma DATA_SECTION(iir4, "iirfilt");
 IIR5BIQ16 iir1 = IIR5BIQ16_DEFAULTS;
 IIR5BIQ16 iir2 = IIR5BIQ16_DEFAULTS;
 IIR5BIQ16 iir3 = IIR5BIQ16_DEFAULTS;
 IIR5BIQ16 iir4 = IIR5BIQ16_DEFAULTS;
 
 // create delay buffers for each filter and place in
-// corresponding "iirldbX" section
-#pragma DATA_SECTION(dbuffer1, "iirldb1");
-#pragma DATA_SECTION(dbuffer2, "iirldb2");
-#pragma DATA_SECTION(dbuffer3, "iirldb3");
-#pragma DATA_SECTION(dbuffer4, "iirldb4");
+// "iirldb" section
+#pragma DATA_SECTION(dbuffer1, "iirldb");
+#pragma DATA_SECTION(dbuffer2, "iirldb");
+#pragma DATA_SECTION(dbuffer3, "iirldb");
+#pragma DATA_SECTION(dbuffer4, "iirldb");
 int dbuffer1[2*IIR16_1_NBIQ];
 int dbuffer2[2*IIR16_2_NBIQ];
 int dbuffer3[2*IIR16_3_NBIQ];
