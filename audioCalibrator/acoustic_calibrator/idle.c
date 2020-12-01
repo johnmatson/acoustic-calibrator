@@ -206,7 +206,9 @@ void fft(void) {
 // GEQ filters and sums output values with associated
 // gains.
 void filter(void) {
-    // ADD Q-FORMAT CONVERSION HERE?
+    // convert from shifted "unsigned" to Q1.15
+    // by shifting to right align & flipping top bit
+    xn = (newsample1 << 4) ^ 0x8000;
 
     iir1.input = xn;
     iir1.calc(&iir1);
