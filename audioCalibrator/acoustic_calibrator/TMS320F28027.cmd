@@ -134,6 +134,8 @@ SECTIONS
     FFTipcbsrc   	  : {} > M01SARAM | L0SARAM 		PAGE = 1
     FFTmagbuf   	  : {} > M01SARAM | L0SARAM 		PAGE = 1
 
+
+
     /*
      *  Uncomment the section below if calling the IQNexp() or IQexp()
      *  functions from the IQMath.lib library in order to utilize the

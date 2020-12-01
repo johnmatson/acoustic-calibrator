@@ -125,6 +125,9 @@ idle.obj: ../fft.h
 idle.obj: ../fft_hamming_Q31.h
 idle.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/math.h
 idle.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/_defs.h
+idle.obj: C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/filter.h
+idle.obj: C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/fir.h
+idle.obj: C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/iir.h
 idle.obj: ../Peripheral_Headers/F2802x_Device.h
 idle.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/assert.h
 idle.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/stdbool.h
@@ -270,6 +273,9 @@ C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/IModule.h:
 ../fft_hamming_Q31.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/math.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/_defs.h: 
+C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/filter.h: 
+C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/fir.h: 
+C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/iir.h: 
 ../Peripheral_Headers/F2802x_Device.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/assert.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/stdbool.h: 

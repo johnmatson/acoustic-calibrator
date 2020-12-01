@@ -62,7 +62,7 @@
 #include <math.h>
 
 // filter includes
-#include "device.h"
+//#include "device.h"
 #include <filter.h>
 #include "math.h"
 
@@ -90,7 +90,7 @@ int dbuffer2[2*IIR16_2_NBIQ];
 int dbuffer3[2*IIR16_3_NBIQ];
 int dbuffer4[2*IIR16_4_NBIQ];
 
-// create and popualte coefficient varibales for each filter
+// create and populate coefficient variables for each filter
 const int coeff1[5*IIR16_1_NBIQ] = IIR16_1_COEFF;
 const int coeff2[5*IIR16_2_NBIQ] = IIR16_2_COEFF;
 const int coeff3[5*IIR16_3_NBIQ] = IIR16_3_COEFF;
@@ -216,9 +216,9 @@ Void myIdleFxn(Void)
         //int16 fft_out_2[FFT_SIZE*2];// output buffer for FFT 2
 
         //count++;
-        RFFT32_brev(ipcbsrc, ipcb, FFT_SIZE); // real FFT bit reversing
+        RFFT32_brev(fftin1, fftout1, FFT_SIZE); // real FFT bit reversing
 
-        rfft.ipcbptr = ipcb;                  // FFT computation buffer
+        rfft.ipcbptr = fftout1;                  // FFT computation buffer
         rfft.magptr  = magnit;               // Magnitude output buffer
         //rfft.winptr  = (long *)win;           // Window coefficient array
         rfft.init(&rfft);                     // Twiddle factor pointer initialization
@@ -241,7 +241,7 @@ Void ADC_1(Void) {
     newsample1 = AdcResult.ADCRESULT0; //get reading
     xn = (newsample1 * 262144);
     if(fft_flag < (FFT_SIZE)) {
-        ipcbsrc[fft_flag] = xn;
+        fftin1[fft_flag] = xn;
         fft_flag++;
     }
 }
@@ -253,9 +253,6 @@ Void ADC_2(Void) {
 
     newsample2 = AdcResult.ADCRESULT1; //get reading
 }
-
-<<<<<<< HEAD
-Void filter(Void) {
 
 // SWI handler passes input signal 1 through four
 // GEQ filters and sums output values with associated
@@ -280,7 +277,6 @@ void filter(void) {
     iir4.input = xn;
     iir4.calc(&iir4);
     yn4 = iir4.output;
->>>>>>> c8effe65a171243d1cf0a4b48a80f4e0f63aa758
 
     // ADD SUMMING AND OUTPUT CONVERSION HERE
 }
