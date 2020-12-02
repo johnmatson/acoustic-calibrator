@@ -20,6 +20,8 @@
 #include <xdc/std.h>
 #include <xdc/runtime/System.h>
 #include <ti/sysbios/BIOS.h>
+#include <ti/sysbios/knl/Task.h>
+#include <ti/sysbios/knl/Semaphore.h>
 #include <ti/sysbios/knl/Swi.h>
 #include "fft.h"
 #include "fft_hamming_Q31.h"
@@ -91,6 +93,7 @@ int16 n; // local circular buffer variable
 int16 ind; // buffer index variable
 int16 fft_flag = 0; // bool used for fft buffer control
 
+extern const Semaphore_Handle TSKFft;
 extern const Swi_Handle SWIFilter;
 
 // Declare and initialize the structure object.
@@ -184,24 +187,7 @@ Void fftTimer(){
 Void myIdleFxn(Void) 
 {
 
-    if (fft_flag >= (FFT_SIZE) - 1) {
-        count++;
-        //int16 fft_out_2[FFT_SIZE*2];// output buffer for FFT 2
 
-        //count++;
-        RFFT32_brev(fftin1, fftout1, FFT_SIZE); // real FFT bit reversing
-
-        rfft.ipcbptr = fftout1;                  // FFT computation buffer
-        rfft.magptr  = fftmag;               // Magnitude output buffer
-        //rfft.winptr  = (long *)win;           // Window coefficient array
-        rfft.init(&rfft);                     // Twiddle factor pointer initialization
-
-        rfft.calc(&rfft);                     // Compute the FFT
-        rfft.split(&rfft);                    // Post processing to get the correct spectrum
-        rfft.mag(&rfft);                      // Q31 format (abs(ipcbsrc)/2^16).^2
-
-        fft_flag = 0;// reset the fft flag to allow the buffer to be refilled later
-    }
 }
 
 // HWI handlers for the ADC results
@@ -212,11 +198,6 @@ Void ADC_1(Void) {
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //clear interrupt flag
 
     newsample1 = AdcResult.ADCRESULT0; //get reading
-//    xn = (newsample1 * 262144);
-//    if(fft_flag < (FFT_SIZE)) {
-//        fftin1[fft_flag] = xn;
-//        fft_flag++;
-//    }
 
     Swi_post(SWIFilter);
 }
@@ -238,7 +219,7 @@ void filter(void) {
 
 
     xn = (newsample1 << 4) ^ 0x8000;
-
+    //    xn = (newsample1 * 262144);
     iir1.input = xn;
     iir1.calc(&iir1);
     yn1 = iir1.output;
@@ -259,9 +240,43 @@ void filter(void) {
 
     yn = (gain[0]*yn1) + (gain[1]*yn2) + (gain[2]*yn3) + (gain[3]*yn4);
 
+
+    if(fft_flag < (FFT_SIZE)) {
+        fftin1[fft_flag] = xn;
+        fft_flag++;
+    }
+    else {
+        Semaphore_post(TSKFft);    }
+
+
 }
 
+Void fft(Void) {
 
+    while(TRUE) {
+
+        Semaphore_pend(TSKFft, BIOS_WAIT_FOREVER);
+
+        if (fft_flag >= (FFT_SIZE) - 1) {
+            count++;
+            //int16 fft_out_2[FFT_SIZE*2];// output buffer for FFT 2
+
+            //count++;
+            RFFT32_brev(fftin1, fftout1, FFT_SIZE); // real FFT bit reversing
+
+            rfft.ipcbptr = fftout1;                  // FFT computation buffer
+            rfft.magptr  = fftmag;               // Magnitude output buffer
+            //rfft.winptr  = (long *)win;           // Window coefficient array
+            rfft.init(&rfft);                     // Twiddle factor pointer initialization
+
+            rfft.calc(&rfft);                     // Compute the FFT
+            rfft.split(&rfft);                    // Post processing to get the correct spectrum
+            rfft.mag(&rfft);                      // Q31 format (abs(ipcbsrc)/2^16).^2
+
+            fft_flag = 0;// reset the fft flag to allow the buffer to be refilled later
+        }
+    }
+}
 
 
 
