@@ -69,11 +69,10 @@ extern void DeviceInit(void);
 /* Flag used by idle function to check if interrupt occurred */
 volatile Bool isrFlag = FALSE;
 
-volatile int16 tickCount = 0;
+volatile int16 tickcount = 0;
 
 int16 newsample1; // sample from ADC_1
 int16 newsample2; // sample from ADC_2
-int16 xn; // pre-filter input sample
 int16 yn1, yn2, yn3, yn4; // post-filter pre-sum output samples
 int16 yn; // post-filter post-sum output sample
 
@@ -86,11 +85,7 @@ int32 fftmag[FFT_SIZE];
 
 int16 gain[BAND_QUANTITY]; // buffer containing the gains of the 4 filters.
 
-int16 k = 0; // circular buffer position variable
-int16 f = 0; // position variable for FFT filling
 int16 i; // for loop iterator
-int16 n; // local circular buffer variable
-int16 ind; // buffer index variable
 int16 fft_count = 0;// fft buffer loop counter
 bool fft_flag = 0;// bool used for fft buffer control
 
@@ -103,6 +98,7 @@ extern const Swi_Handle SWIFilter;
 RFFT32  rfft = RFFT32_32P_DEFAULTS;
 
 int16 count; // count for testing
+int16 yout[FFT_SIZE];
 
 /*
  *  ======== main ========
@@ -148,7 +144,6 @@ Int main()
     gain[2] = 1;
     gain[3] = 1;
 
-
     /* 
      * Start BIOS
      * Perform a few final initializations and then
@@ -164,8 +159,6 @@ Int main()
         //fft_in_2[i] = 0;
     }
 
-    k = 0;
-
     DeviceInit(); // initialize peripherals
     BIOS_start();    /* does not return */
     return(0);
@@ -173,11 +166,8 @@ Int main()
 
 Void ADCtimer(UArg arg)
 {
-    AdcRegs.ADCSOCFRC1.all = 0x1; //start conversion via software
-}
-
-Void fftTimer(){
-    isrFlag = TRUE;    /* tell background that new data is available */
+    tickcount ++;
+    isrFlag = TRUE;
 }
 
 /*
@@ -185,20 +175,15 @@ Void fftTimer(){
  *  This section performs the FFTs of the two inputs, then uses the result to modify the gain
  *
  */
-Void myIdleFxn(Void) 
-{
-
-
+Void myIdleFxn(Void) {
 }
 
 // HWI handlers for the ADC results
 // vector ID 32 is ADCINT1
 Void ADC_1(Void) {
-//    int16_t xn;
     //read ADC value
+    newsample1 = (AdcResult.ADCRESULT0 << 4) ^ 0x8000; //get reading
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //clear interrupt flag
-
-    newsample1 = AdcResult.ADCRESULT0; //get reading
 
     Swi_post(SWIFilter);
 }
@@ -206,9 +191,8 @@ Void ADC_1(Void) {
 // vector ID 33 is ADCINT2
 Void ADC_2(Void) {
     //read ADC value
+    newsample2 = (AdcResult.ADCRESULT1 << 4) ^ 0x8000; //get reading
     AdcRegs.ADCINTFLGCLR.bit.ADCINT2 = 1; //clear interrupt flag
-
-    newsample2 = AdcResult.ADCRESULT1; //get reading
 }
 
 // SWI handler passes input signal 1 through four
@@ -218,22 +202,21 @@ void filter(void) {
     // convert from shifted "unsigned" to Q1.15
     // by shifting to right align & flipping top bit
 
-
-    xn = (newsample1 << 4) ^ 0x8000;
-    //    xn = (newsample1 * 262144);
-    iir1.input = xn;
+    // * 262144
+    //xn = (newsample1 << 4) ^ 0x8000;
+    iir1.input = newsample1;
     iir1.calc(&iir1);
     yn1 = iir1.output;
 
-    iir2.input = xn;
+    iir2.input = newsample1;
     iir2.calc(&iir2);
     yn2 = iir2.output;
 
-    iir3.input = xn;
+    iir3.input = newsample1;
     iir3.calc(&iir3);
     yn3 = iir3.output;
 
-    iir4.input = xn;
+    iir4.input = newsample1;
     iir4.calc(&iir4);
     yn4 = iir4.output;
 
@@ -243,13 +226,16 @@ void filter(void) {
 
 
     if(~fft_flag && (fft_count < FFT_SIZE)) {
-        fftin1[fft_count] = xn;
+        fftin1[fft_count] = newsample1;
         fft_count++;
     }
     else {
         fft_count = 0;
         Semaphore_post(SEMFft);
     }
+
+
+
 
 }
 
@@ -261,9 +247,7 @@ Void fft(Void) {
 
         fft_flag = 1;//block
         count++;
-        //int16 fft_out_2[FFT_SIZE*2];// output buffer for FFT 2
 
-        //count++;
         RFFT32_brev(fftin1, fftout1, FFT_SIZE); // real FFT bit reversing
 
         rfft.ipcbptr = fftout1;                  // FFT computation buffer
@@ -275,11 +259,10 @@ Void fft(Void) {
         rfft.split(&rfft);                    // Post processing to get the correct spectrum
         //rfft.mag(&rfft);                      // Q31 format (abs(ipcbsrc)/2^16).^2
 
-        }
-
         fft_flag = 0;
 
-    }
+        }
+
 }
 
 

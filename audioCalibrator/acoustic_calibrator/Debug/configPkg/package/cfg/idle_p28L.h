@@ -16,11 +16,11 @@ extern const ti_sysbios_knl_Swi_Handle SWIFilter;
 #include <ti/sysbios/family/c28/Hwi.h>
 extern const ti_sysbios_family_c28_Hwi_Handle hwi1;
 
-#include <ti/sysbios/family/c28/Timer.h>
-extern const ti_sysbios_family_c28_Timer_Handle fft_timer;
-
 #include <ti/sysbios/knl/Semaphore.h>
 extern const ti_sysbios_knl_Semaphore_Handle SEMFft;
+
+#include <ti/sysbios/family/c28/Timer.h>
+extern const ti_sysbios_family_c28_Timer_Handle timer0;
 
 extern int xdc_runtime_Startup__EXECFXN__C;
 

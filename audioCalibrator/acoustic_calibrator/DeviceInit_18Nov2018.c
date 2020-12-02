@@ -214,6 +214,7 @@ void DeviceInit(void)
 
     // configure ADC to simultaneous sample mode an ADCIN A2 and B2
     AdcRegs.ADCSAMPLEMODE.bit.SIMULEN0 = 1;
+    AdcRegs.ADCSOC0CTL.bit.TRIGSEL = 1;
     AdcRegs.ADCSOC0CTL.bit.CHSEL = 0x2;//
     AdcRegs.ADCSOC0CTL.bit.ACQPS = 0x6; //set SOC0 window to 7 ADCCLKs
     AdcRegs.INTSEL1N2.bit.INT1SEL = 0; //connect interrupt ADCINT1 to EOC0
