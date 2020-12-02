@@ -91,6 +91,8 @@ int16 n; // local circular buffer variable
 int16 ind; // buffer index variable
 int16 fft_flag = 0; // bool used for fft buffer control
 
+extern const Swi_Handle SWIFilter;
+
 // Declare and initialize the structure object.
 // Use the RFFT32_<n>P_DEFUALTS in the FFT header file if
 // unsure as to what values to program the object with.
@@ -136,6 +138,11 @@ Int main()
     iir4.isf          = IIR16_4_ISF;
     iir4.init(&iir4);
 
+    //initialize gain buffers to unity
+    gain[0] = 1;
+    gain[1] = 1;
+    gain[2] = 1;
+    gain[3] = 1;
 
 
     /* 
@@ -200,16 +207,18 @@ Void myIdleFxn(Void)
 // HWI handlers for the ADC results
 // vector ID 32 is ADCINT1
 Void ADC_1(Void) {
-    int32 xn;
+//    int16_t xn;
     //read ADC value
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //clear interrupt flag
 
     newsample1 = AdcResult.ADCRESULT0; //get reading
-    xn = (newsample1 * 262144);
-    if(fft_flag < (FFT_SIZE)) {
-        fftin1[fft_flag] = xn;
-        fft_flag++;
-    }
+//    xn = (newsample1 * 262144);
+//    if(fft_flag < (FFT_SIZE)) {
+//        fftin1[fft_flag] = xn;
+//        fft_flag++;
+//    }
+
+    Swi_post(SWIFilter);
 }
 
 // vector ID 33 is ADCINT2
@@ -226,6 +235,8 @@ Void ADC_2(Void) {
 void filter(void) {
     // convert from shifted "unsigned" to Q1.15
     // by shifting to right align & flipping top bit
+
+
     xn = (newsample1 << 4) ^ 0x8000;
 
     iir1.input = xn;
@@ -245,4 +256,32 @@ void filter(void) {
     yn4 = iir4.output;
 
     // ADD SUMMING AND OUTPUT CONVERSION HERE
+
+    yn = (gain[0]*yn1) + (gain[1]*yn2) + (gain[2]*yn3) + (gain[3]*yn4);
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

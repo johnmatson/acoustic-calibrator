@@ -11,7 +11,7 @@
 extern const ti_sysbios_family_c28_Hwi_Handle hwi0;
 
 #include <ti/sysbios/knl/Swi.h>
-extern const ti_sysbios_knl_Swi_Handle swi0;
+extern const ti_sysbios_knl_Swi_Handle SWIFilter;
 
 #include <ti/sysbios/family/c28/Hwi.h>
 extern const ti_sysbios_family_c28_Hwi_Handle hwi1;
