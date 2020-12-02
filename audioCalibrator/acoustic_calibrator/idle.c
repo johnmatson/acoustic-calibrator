@@ -242,7 +242,7 @@ void filter(void) {
     yn = (gain[0]*yn1) + (gain[1]*yn2) + (gain[2]*yn3) + (gain[3]*yn4);
 
 
-    if(!fft_flag) {
+    if(~fft_flag && (fft_count < FFT_SIZE)) {
         fftin1[fft_count] = xn;
         fft_count++;
     }
@@ -250,7 +250,6 @@ void filter(void) {
         fft_count = 0;
         Semaphore_post(SEMFft);
     }
-
 
 }
 
@@ -274,7 +273,11 @@ Void fft(Void) {
 
         rfft.calc(&rfft);                     // Compute the FFT
         rfft.split(&rfft);                    // Post processing to get the correct spectrum
-        rfft.mag(&rfft);                      // Q31 format (abs(ipcbsrc)/2^16).^2
+        //rfft.mag(&rfft);                      // Q31 format (abs(ipcbsrc)/2^16).^2
+
+        }
+
+        fft_flag = 0;
 
     }
 }
