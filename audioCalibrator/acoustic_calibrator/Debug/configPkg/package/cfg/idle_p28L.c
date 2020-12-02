@@ -16097,12 +16097,12 @@ const __T1_xdc_runtime_Text_charTab xdc_runtime_Text_charTab__A[4982] = {
     (xdc_Char)0x65,  /* [4943] */
     (xdc_Char)0x72,  /* [4944] */
     (xdc_Char)0x0,  /* [4945] */
-    (xdc_Char)0x66,  /* [4946] */
-    (xdc_Char)0x66,  /* [4947] */
-    (xdc_Char)0x74,  /* [4948] */
-    (xdc_Char)0x54,  /* [4949] */
-    (xdc_Char)0x53,  /* [4950] */
-    (xdc_Char)0x4b,  /* [4951] */
+    (xdc_Char)0x54,  /* [4946] */
+    (xdc_Char)0x53,  /* [4947] */
+    (xdc_Char)0x4b,  /* [4948] */
+    (xdc_Char)0x46,  /* [4949] */
+    (xdc_Char)0x66,  /* [4950] */
+    (xdc_Char)0x74,  /* [4951] */
     (xdc_Char)0x0,  /* [4952] */
     (xdc_Char)0x74,  /* [4953] */
     (xdc_Char)0x69,  /* [4954] */
@@ -21200,5 +21200,5 @@ const ti_sysbios_family_c28_Timer_Handle fft_timer = (ti_sysbios_family_c28_Time
 #endif
 #endif
 #endif
-const ti_sysbios_knl_Task_Handle fftTSK = (ti_sysbios_knl_Task_Handle)((ti_sysbios_knl_Task_Handle)&ti_sysbios_knl_Task_Object__table__V[0]);
+const ti_sysbios_knl_Task_Handle TSKFft = (ti_sysbios_knl_Task_Handle)((ti_sysbios_knl_Task_Handle)&ti_sysbios_knl_Task_Object__table__V[0]);
 

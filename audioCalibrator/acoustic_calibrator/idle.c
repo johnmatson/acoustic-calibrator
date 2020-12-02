@@ -91,9 +91,10 @@ int16 f = 0; // position variable for FFT filling
 int16 i; // for loop iterator
 int16 n; // local circular buffer variable
 int16 ind; // buffer index variable
-int16 fft_flag = 0; // bool used for fft buffer control
+int16 fft_count = 0;// fft buffer loop counter
+bool fft_flag = 0;// bool used for fft buffer control
 
-extern const Semaphore_Handle TSKFft;
+extern const Semaphore_Handle SEMFft;
 extern const Swi_Handle SWIFilter;
 
 // Declare and initialize the structure object.
@@ -241,12 +242,14 @@ void filter(void) {
     yn = (gain[0]*yn1) + (gain[1]*yn2) + (gain[2]*yn3) + (gain[3]*yn4);
 
 
-    if(fft_flag < (FFT_SIZE)) {
-        fftin1[fft_flag] = xn;
-        fft_flag++;
+    if(!fft_flag) {
+        fftin1[fft_count] = xn;
+        fft_count++;
     }
     else {
-        Semaphore_post(TSKFft);    }
+        fft_count = 0;
+        Semaphore_post(SEMFft);
+    }
 
 
 }
@@ -255,26 +258,24 @@ Void fft(Void) {
 
     while(TRUE) {
 
-        Semaphore_pend(TSKFft, BIOS_WAIT_FOREVER);
+        Semaphore_pend(SEMFft, BIOS_WAIT_FOREVER);
 
-        if (fft_flag >= (FFT_SIZE) - 1) {
-            count++;
-            //int16 fft_out_2[FFT_SIZE*2];// output buffer for FFT 2
+        fft_flag = 1;//block
+        count++;
+        //int16 fft_out_2[FFT_SIZE*2];// output buffer for FFT 2
 
-            //count++;
-            RFFT32_brev(fftin1, fftout1, FFT_SIZE); // real FFT bit reversing
+        //count++;
+        RFFT32_brev(fftin1, fftout1, FFT_SIZE); // real FFT bit reversing
 
-            rfft.ipcbptr = fftout1;                  // FFT computation buffer
-            rfft.magptr  = fftmag;               // Magnitude output buffer
-            //rfft.winptr  = (long *)win;           // Window coefficient array
-            rfft.init(&rfft);                     // Twiddle factor pointer initialization
+        rfft.ipcbptr = fftout1;                  // FFT computation buffer
+        rfft.magptr  = fftmag;               // Magnitude output buffer
+        //rfft.winptr  = (long *)win;           // Window coefficient array
+        rfft.init(&rfft);                     // Twiddle factor pointer initialization
 
-            rfft.calc(&rfft);                     // Compute the FFT
-            rfft.split(&rfft);                    // Post processing to get the correct spectrum
-            rfft.mag(&rfft);                      // Q31 format (abs(ipcbsrc)/2^16).^2
+        rfft.calc(&rfft);                     // Compute the FFT
+        rfft.split(&rfft);                    // Post processing to get the correct spectrum
+        rfft.mag(&rfft);                      // Q31 format (abs(ipcbsrc)/2^16).^2
 
-            fft_flag = 0;// reset the fft flag to allow the buffer to be refilled later
-        }
     }
 }
 

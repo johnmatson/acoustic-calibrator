@@ -20,7 +20,7 @@ extern const ti_sysbios_family_c28_Hwi_Handle hwi1;
 extern const ti_sysbios_family_c28_Timer_Handle fft_timer;
 
 #include <ti/sysbios/knl/Task.h>
-extern const ti_sysbios_knl_Task_Handle fftTSK;
+extern const ti_sysbios_knl_Task_Handle TSKFft;
 
 extern int xdc_runtime_Startup__EXECFXN__C;
 
