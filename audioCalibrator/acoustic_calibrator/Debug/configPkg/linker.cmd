@@ -94,11 +94,11 @@
 
 /* Content from ti.sysbios.family.c28 (null): */
 
+/* Content from ti.sysbios.utils (null): */
+
 /* Content from ti.sysbios.gates (null): */
 
 /* Content from ti.sysbios.xdcruntime (null): */
-
-/* Content from ti.sysbios.utils (null): */
 
 /* Content from configPkg (null): */
 

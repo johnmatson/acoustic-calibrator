@@ -26,6 +26,7 @@
 #include "fft.h"
 #include "fft_hamming_Q31.h"
 #include <math.h>
+#include <ti/sysbios/utils/Load.h>    // AF CK
 
 // filter includes
 //#include "device.h"
@@ -66,11 +67,6 @@ const int16_t coeff4[5*IIR16_4_NBIQ] = IIR16_4_COEFF;
 //function prototypes:
 extern void DeviceInit(void);
 
-/* Flag used by idle function to check if interrupt occurred */
-volatile Bool isrFlag = FALSE;
-
-volatile int16 tickcount = 0;
-
 int16 newsample1; // sample from ADC_1
 int16 newsample2; // sample from ADC_2
 int16 yn1, yn2, yn3, yn4; // post-filter pre-sum output samples
@@ -89,16 +85,22 @@ int16 i; // for loop iterator
 int16 fft_count = 0;// fft buffer loop counter
 bool fft_flag = 0;// bool used for fft buffer control
 
+Load_Stat stat;
+Int CPULoad;
+Int hwiLoad;
+Int swiLoad;
+Int taskLoad;
+
 extern const Semaphore_Handle SEMFft;
 extern const Swi_Handle SWIFilter;
+extern const Task_Handle ffthandle;
 
 // Declare and initialize the structure object.
 // Use the RFFT32_<n>P_DEFUALTS in the FFT header file if
 // unsure as to what values to program the object with.
 RFFT32  rfft = RFFT32_32P_DEFAULTS;
 
-int16 count; // count for testing
-int16 yout[FFT_SIZE];
+int16 count = 0; // count for testing
 
 /*
  *  ======== main ========
@@ -164,10 +166,8 @@ Int main()
     return(0);
 }
 
-Void ADCtimer(UArg arg)
-{
-    tickcount ++;
-    isrFlag = TRUE;
+Void ADCtimer(UArg arg){
+
 }
 
 /*
@@ -176,13 +176,26 @@ Void ADCtimer(UArg arg)
  *
  */
 Void myIdleFxn(Void) {
+
+    Load_getGlobalHwiLoad(&stat);               // HWI load check
+    hwiLoad = Load_calculateLoad(&stat);
+
+    Load_getGlobalSwiLoad(&stat);               // SWI load check
+    swiLoad = Load_calculateLoad(&stat);
+
+    Load_getTaskLoad(ffthandle, &stat);            // Task load check
+    taskLoad = Load_calculateLoad(&stat);
+
+    CPULoad = Load_getCPULoad();
+    // Global CPU load check
+    System_printf("CPU load = %d\nHWI load = %d\nSWI load = %d\nTASK load = %d\n", CPULoad, hwiLoad, swiLoad, taskLoad);
 }
 
 // HWI handlers for the ADC results
 // vector ID 32 is ADCINT1
 Void ADC_1(Void) {
     //read ADC value
-    newsample1 = (AdcResult.ADCRESULT0 << 4) ^ 0x8000; //get reading
+    newsample1 = (AdcResult.ADCRESULT0 << 4 ) ^ 0x8000; //get reading
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //clear interrupt flag
 
     Swi_post(SWIFilter);
@@ -191,7 +204,7 @@ Void ADC_1(Void) {
 // vector ID 33 is ADCINT2
 Void ADC_2(Void) {
     //read ADC value
-    newsample2 = (AdcResult.ADCRESULT1 << 4) ^ 0x8000; //get reading
+    newsample2 = (AdcResult.ADCRESULT1 << 4 ) ^ 0x8000; //get reading
     AdcRegs.ADCINTFLGCLR.bit.ADCINT2 = 1; //clear interrupt flag
 }
 
@@ -201,9 +214,8 @@ Void ADC_2(Void) {
 void filter(void) {
     // convert from shifted "unsigned" to Q1.15
     // by shifting to right align & flipping top bit
+int16 xn;
 
-    // * 262144
-    //xn = (newsample1 << 4) ^ 0x8000;
     iir1.input = newsample1;
     iir1.calc(&iir1);
     yn1 = iir1.output;
@@ -234,30 +246,28 @@ void filter(void) {
         Semaphore_post(SEMFft);
     }
 
-
-
-
 }
 
 Void fft(Void) {
 
     while(TRUE) {
 
+        count++;
         Semaphore_pend(SEMFft, BIOS_WAIT_FOREVER);
 
-        fft_flag = 1;//block
-        count++;
+        fft_flag = 1;//block filter function from updating fft buffer while calculations are being run
+
 
         RFFT32_brev(fftin1, fftout1, FFT_SIZE); // real FFT bit reversing
 
         rfft.ipcbptr = fftout1;                  // FFT computation buffer
-        rfft.magptr  = fftmag;               // Magnitude output buffer
+        rfft.magptr  = fftin1;               // Magnitude output buffer
         //rfft.winptr  = (long *)win;           // Window coefficient array
         rfft.init(&rfft);                     // Twiddle factor pointer initialization
 
         rfft.calc(&rfft);                     // Compute the FFT
         rfft.split(&rfft);                    // Post processing to get the correct spectrum
-        //rfft.mag(&rfft);                      // Q31 format (abs(ipcbsrc)/2^16).^2
+        rfft.mag(&rfft);                      // Q31 format (abs(ipcbsrc)/2^16).^2
 
         fft_flag = 0;
 

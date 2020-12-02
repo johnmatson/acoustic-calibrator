@@ -189,6 +189,21 @@ idle.obj: ../fft.h
 idle.obj: ../fft_hamming_Q31.h
 idle.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/math.h
 idle.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/_defs.h
+idle.obj: C:/ti/bios_6_76_04_02/packages/ti/sysbios/utils/Load.h
+idle.obj: C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Types.h
+idle.obj: C:/ti/bios_6_76_04_02/packages/ti/sysbios/utils/package/package.defs.h
+idle.obj: C:/ti/bios_6_76_04_02/packages/ti/sysbios/knl/Queue.h
+idle.obj: C:/ti/bios_6_76_04_02/packages/ti/sysbios/knl/Task.h
+idle.obj: C:/ti/bios_6_76_04_02/packages/ti/sysbios/knl/Swi.h
+idle.obj: C:/ti/bios_6_76_04_02/packages/ti/sysbios/interfaces/IHwi.h
+idle.obj: C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Types.h
+idle.obj: C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/IInstance.h
+idle.obj: C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Error.h
+idle.obj: C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/IModule.h
+idle.obj: C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Diags.h
+idle.obj: C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Log.h
+idle.obj: C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Error.h
+idle.obj: C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/IModule.h
 idle.obj: C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/filter.h
 idle.obj: C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/fir.h
 idle.obj: C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/iir.h
@@ -402,6 +417,21 @@ C:/ti/bios_6_76_04_02/packages/ti/sysbios/knl/Swi.h:
 ../fft_hamming_Q31.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/math.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/_defs.h: 
+C:/ti/bios_6_76_04_02/packages/ti/sysbios/utils/Load.h: 
+C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Types.h: 
+C:/ti/bios_6_76_04_02/packages/ti/sysbios/utils/package/package.defs.h: 
+C:/ti/bios_6_76_04_02/packages/ti/sysbios/knl/Queue.h: 
+C:/ti/bios_6_76_04_02/packages/ti/sysbios/knl/Task.h: 
+C:/ti/bios_6_76_04_02/packages/ti/sysbios/knl/Swi.h: 
+C:/ti/bios_6_76_04_02/packages/ti/sysbios/interfaces/IHwi.h: 
+C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Types.h: 
+C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/IInstance.h: 
+C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Error.h: 
+C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/IModule.h: 
+C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Diags.h: 
+C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Log.h: 
+C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/Error.h: 
+C:/ti/xdctools_3_51_01_18_core/packages/xdc/runtime/IModule.h: 
 C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/filter.h: 
 C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/fir.h: 
 C:/Users/Alex/Documents/GitHub/acoustic-calibrator/audioCalibrator/acoustic_calibrator/iir.h: 
