@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v18.1.8                     
 ******************************************************************************
->> Linked Thu Dec  3 02:22:24 2020
+>> Linked Thu Dec  3 03:32:45 2020
 
 OUTPUT FILE NAME:   <acoustic_calibrator.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 003f197d
@@ -13,7 +13,7 @@ MEMORY CONFIGURATION
 ----------------------  --------  ---------  --------  --------  ----  --------
 PAGE 0:
   OTP                   003d7800   00000400  00000000  00000400  RWIX
-  FLASH                 003f0000   00007f80  000067e5  0000179b  RWIX
+  FLASH                 003f0000   00007f80  000067d7  000017a9  RWIX
   CSM_RSVD              003f7f80   00000076  00000000  00000076  RWIX
   BEGIN                 003f7ff6   00000002  00000002  00000000  RWIX
   CSM_PWL               003f7ff8   00000008  00000000  00000008  RWIX
@@ -230,16 +230,16 @@ FlashScalingVar
                   003f4ad8    00000001     idle_p28L.o28L (.econst:xdc_runtime_Text_registryModsLastId__C)
                   003f4ad9    00000001     idle_p28L.o28L (.econst:xdc_runtime_Text_unnamedModsLastId__C)
 
-.cinit     0    003f62da    000004f0     
+.cinit     0    003f62da    000004e2     
                   003f62da    00000465     idle_p28L.o28L (.cinit)
-                  003f673f    00000071     idle.obj (.cinit)
-                  003f67b0    0000000e     rts2800_ml.lib : exit.c.obj (.cinit)
-                  003f67be    00000005                    : _lock.c.obj (.cinit:__lock)
-                  003f67c3    00000005                    : _lock.c.obj (.cinit:__unlock)
-                  003f67c8    00000002     --HOLE-- [fill = 0]
+                  003f673f    00000063     idle.obj (.cinit)
+                  003f67a2    0000000e     rts2800_ml.lib : exit.c.obj (.cinit)
+                  003f67b0    00000005                    : _lock.c.obj (.cinit:__lock)
+                  003f67b5    00000005                    : _lock.c.obj (.cinit:__unlock)
+                  003f67ba    00000002     --HOLE-- [fill = 0]
 
-.switch    0    003f67ca    0000001c     
-                  003f67ca    0000001c     sysbios.a28L : BIOS.obj (.switch:_ti_sysbios_family_c28_Hwi_clearInterrupt__E)
+.switch    0    003f67bc    0000001c     
+                  003f67bc    0000001c     sysbios.a28L : BIOS.obj (.switch:_ti_sysbios_family_c28_Hwi_clearInterrupt__E)
 
 DevEmuRegsFile 
 *          1    00000880    00000004     UNINITIALIZED
@@ -720,7 +720,7 @@ MODULE SUMMARY
        ------                            ----    ----------------   ------------------
     .\
        FFT32_init.obj                    4       6144               0                 
-       idle.obj                          668     231                620               
+       idle.obj                          668     217                620               
        F2802x_GlobalVariableDefs.obj     0       0                  790               
        ELEX7820-DA-DacIsr template.obj   356     0                  0                 
        DeviceInit_18Nov2018.obj          272     0                  0                 
@@ -735,7 +735,7 @@ MODULE SUMMARY
        FFT32_izero.obj                   14      0                  0                 
        CodeStartBranch.obj               2       0                  0                 
     +--+---------------------------------+-------+------------------+--------------------+
-       Total:                            1871    6375               1410              
+       Total:                            1871    6361               1410              
                                                                                       
     C:\Users\Alex\Documents\GitHub\acoustic-calibrator\audioCalibrator\acoustic_calibrator\Debug\configPkg\package\cfg\
        idle_p28L.o28L                    767     7311               2048              
@@ -802,7 +802,7 @@ MODULE SUMMARY
                                                                                       
        Stack:                            0       0                  256               
     +--+---------------------------------+-------+------------------+--------------------+
-       Grand Total:                      12561   14036              4020              
+       Grand Total:                      12561   14022              4020              
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -830,10 +830,10 @@ address     data page           name
 
 000002c0       b (000002c0)     _magnitude2
 
-00000400      10 (00000400)     _iir2
-0000040e      10 (00000400)     _iir1
-0000041c      10 (00000400)     _iir4
-0000042a      10 (00000400)     _iir3
+00000400      10 (00000400)     _iir3
+0000040e      10 (00000400)     _iir4
+0000041c      10 (00000400)     _iir2
+0000042a      10 (00000400)     _iir1
 
 00000880      22 (00000880)     _DevEmuRegs
 
@@ -963,28 +963,25 @@ address     data page           name
 
 00008700     21c (00008700)     _ti_sysbios_knl_Task_Instance_State_1_stack__A
 
-00008800     220 (00008800)     _swiLoad
-00008801     220 (00008800)     _yn
-00008802     220 (00008800)     _yn4
-00008803     220 (00008800)     _yn1
-00008804     220 (00008800)     _newsample2
-00008805     220 (00008800)     _yn3
-00008806     220 (00008800)     _CPULoad
-00008807     220 (00008800)     _i
-00008808     220 (00008800)     _fft_flag
-00008809     220 (00008800)     _yn2
-0000880a     220 (00008800)     _hwiLoad
-0000880b     220 (00008800)     _count
-0000880c     220 (00008800)     _taskLoad
-0000880d     220 (00008800)     _newsample1
-0000880e     220 (00008800)     _fft_count
-00008810     220 (00008800)     _RadStep
-00008812     220 (00008800)     _Rad
-00008814     220 (00008800)     _stat
-00008818     220 (00008800)     _gain
-0000881c     220 (00008800)     _fft1sum
-00008824     220 (00008800)     _fft2sum
-0000882c     220 (00008800)     _gain32
+00008800     220 (00008800)     _i
+00008801     220 (00008800)     _yn4
+00008802     220 (00008800)     _yn3
+00008803     220 (00008800)     _yn
+00008804     220 (00008800)     _taskLoad
+00008805     220 (00008800)     _fft_flag
+00008806     220 (00008800)     _fft_count
+00008807     220 (00008800)     _hwiLoad
+00008808     220 (00008800)     _CPULoad
+00008809     220 (00008800)     _swiLoad
+0000880a     220 (00008800)     _newsample1
+0000880b     220 (00008800)     _yn1
+0000880c     220 (00008800)     _newsample2
+0000880d     220 (00008800)     _yn2
+0000880e     220 (00008800)     _stat
+00008812     220 (00008800)     _gain
+00008816     220 (00008800)     _fft2sum
+0000881e     220 (00008800)     _gain32
+00008826     220 (00008800)     _fft1sum
 
 00008840     221 (00008840)     _rfft
 00008858     221 (00008840)     _parmbuf
@@ -996,10 +993,10 @@ address     data page           name
 
 00008880     222 (00008880)     __CIOBUF_
 
-00008c00     230 (00008c00)     _dbuffer3
-00008c06     230 (00008c00)     _dbuffer2
-00008c0c     230 (00008c00)     _dbuffer4
-00008c12     230 (00008c00)     _dbuffer1
+00008c00     230 (00008c00)     _dbuffer1
+00008c06     230 (00008c00)     _dbuffer4
+00008c0c     230 (00008c00)     _dbuffer3
+00008c12     230 (00008c00)     _dbuffer2
 
 003d7fff    f5ff (003d7fc0)     _PartIdRegs
 
@@ -1193,7 +1190,7 @@ page  address   name
 0     003f008a  _ADCtimer                                                 
 1     00007100  _AdcRegs                                                  
 1     00000b00  _AdcResult                                                
-1     00008806  _CPULoad                                                  
+1     00008808  _CPULoad                                                  
 1     00006400  _Comp1Regs                                                
 1     00006420  _Comp2Regs                                                
 1     00000c00  _CpuTimer0Regs                                            
@@ -1251,8 +1248,6 @@ page  address   name
 0     003f1a4a  _RFFT32_split                                             
 0     003f2711  _RFFT32_win                                               
 0     003f0654  _RTOSINT_ISR                                              
-1     00008812  _Rad                                                      
-1     00008810  _RadStep                                                  
 1     00008000  _RamfuncsLoadEnd                                          
 abs   00000000  _RamfuncsLoadSize                                         
 1     00008000  _RamfuncsLoadStart                                        
@@ -1326,18 +1321,17 @@ abs   ffffffff  ___pinit__
 0     003f4992  _coeff3                                                   
 0     003f49a1  _coeff4                                                   
 0     003f2735  _copy_in                                                  
-1     0000880b  _count                                                    
 0     003f0187  _dac                                                      
-1     00008c12  _dbuffer1                                                 
-1     00008c06  _dbuffer2                                                 
-1     00008c00  _dbuffer3                                                 
-1     00008c0c  _dbuffer4                                                 
+1     00008c00  _dbuffer1                                                 
+1     00008c12  _dbuffer2                                                 
+1     00008c0c  _dbuffer3                                                 
+1     00008c06  _dbuffer4                                                 
 0     003f2675  _exit                                                     
 0     003f018e  _fft                                                      
-1     0000881c  _fft1sum                                                  
-1     00008824  _fft2sum                                                  
-1     0000880e  _fft_count                                                
-1     00008808  _fft_flag                                                 
+1     00008826  _fft1sum                                                  
+1     00008816  _fft2sum                                                  
+1     00008806  _fft_count                                                
+1     00008805  _fft_flag                                                 
 0     003f49b2  _ffthandle                                                
 1     00000200  _fftin1                                                   
 1     00000240  _fftin2                                                   
@@ -1345,16 +1339,16 @@ abs   ffffffff  ___pinit__
 1     00000180  _fftout2                                                  
 0     003f00e7  _filter                                                   
 0     003f310a  _free                                                     
-1     00008818  _gain                                                     
-1     0000882c  _gain32                                                   
+1     00008812  _gain                                                     
+1     0000881e  _gain32                                                   
 0     003f49bc  _hwi0                                                     
 0     003f49b4  _hwi1                                                     
-1     0000880a  _hwiLoad                                                  
-1     00008807  _i                                                        
-1     0000040e  _iir1                                                     
-1     00000400  _iir2                                                     
-1     0000042a  _iir3                                                     
-1     0000041c  _iir4                                                     
+1     00008807  _hwiLoad                                                  
+1     00008800  _i                                                        
+1     0000042a  _iir1                                                     
+1     0000041c  _iir2                                                     
+1     00000400  _iir3                                                     
+1     0000040e  _iir4                                                     
 1     00000280  _magnitude1                                               
 1     000002c0  _magnitude2                                               
 0     003f0000  _main                                                     
@@ -1362,15 +1356,15 @@ abs   ffffffff  ___pinit__
 0     003f2931  _memcpy                                                   
 0     003f2fcd  _memset                                                   
 0     003f008e  _myIdleFxn                                                
-1     0000880d  _newsample1                                               
-1     00008804  _newsample2                                               
+1     0000880a  _newsample1                                               
+1     0000880c  _newsample2                                               
 1     00008858  _parmbuf                                                  
 1     00008840  _rfft                                                     
 0     003f07a4  _rsvd_ISR                                                 
-1     00008814  _stat                                                     
+1     0000880e  _stat                                                     
 0     003f2f6a  _strlen                                                   
-1     00008800  _swiLoad                                                  
-1     0000880c  _taskLoad                                                 
+1     00008809  _swiLoad                                                  
+1     00008804  _taskLoad                                                 
 0     003f2438  _ti_catalog_c2800_init_Boot_configurePll2802x             
 0     003f30fe  _ti_catalog_c2800_init_Boot_defaultLimpAbortFunction      
 0     003f2c91  _ti_catalog_c2800_init_Boot_disableWatchdog               
@@ -1834,11 +1828,11 @@ abs   00000001  _xdc_runtime_Startup__RESETFXN__C
 0     003f30f3  _xdc_runtime_Timestamp_SupportProxy_getFreq__E            
 0     003f30f6  _xdc_runtime_Timestamp_get32__E                           
 0     003f30f9  _xdc_runtime_Timestamp_getFreq__E                         
-1     00008801  _yn                                                       
-1     00008803  _yn1                                                      
-1     00008809  _yn2                                                      
-1     00008805  _yn3                                                      
-1     00008802  _yn4                                                      
+1     00008803  _yn                                                       
+1     0000880b  _yn1                                                      
+1     0000880d  _yn2                                                      
+1     00008802  _yn3                                                      
+1     00008801  _yn4                                                      
 abs   ffffffff  binit                                                     
 0     003f62da  cinit                                                     
 0     003f310f  etext                                                     
@@ -2383,10 +2377,10 @@ page  address   name
 1     00000240  _fftin2                                                   
 1     00000280  _magnitude1                                               
 1     000002c0  _magnitude2                                               
-1     00000400  _iir2                                                     
-1     0000040e  _iir1                                                     
-1     0000041c  _iir4                                                     
-1     0000042a  _iir3                                                     
+1     00000400  _iir3                                                     
+1     0000040e  _iir4                                                     
+1     0000041c  _iir2                                                     
+1     0000042a  _iir1                                                     
 1     00000880  _DevEmuRegs                                               
 1     00000985  _SysPwrCtrlRegs                                           
 1     00000a80  _FlashRegs                                                
@@ -2476,28 +2470,25 @@ page  address   name
 1     00008500  _xdc_runtime_LoggerBuf_Instance_State_0_entryArr__A       
 1     00008600  _ti_sysbios_knl_Task_Instance_State_0_stack__A            
 1     00008700  _ti_sysbios_knl_Task_Instance_State_1_stack__A            
-1     00008800  _swiLoad                                                  
-1     00008801  _yn                                                       
-1     00008802  _yn4                                                      
-1     00008803  _yn1                                                      
-1     00008804  _newsample2                                               
-1     00008805  _yn3                                                      
-1     00008806  _CPULoad                                                  
-1     00008807  _i                                                        
-1     00008808  _fft_flag                                                 
-1     00008809  _yn2                                                      
-1     0000880a  _hwiLoad                                                  
-1     0000880b  _count                                                    
-1     0000880c  _taskLoad                                                 
-1     0000880d  _newsample1                                               
-1     0000880e  _fft_count                                                
-1     00008810  _RadStep                                                  
-1     00008812  _Rad                                                      
-1     00008814  _stat                                                     
-1     00008818  _gain                                                     
-1     0000881c  _fft1sum                                                  
-1     00008824  _fft2sum                                                  
-1     0000882c  _gain32                                                   
+1     00008800  _i                                                        
+1     00008801  _yn4                                                      
+1     00008802  _yn3                                                      
+1     00008803  _yn                                                       
+1     00008804  _taskLoad                                                 
+1     00008805  _fft_flag                                                 
+1     00008806  _fft_count                                                
+1     00008807  _hwiLoad                                                  
+1     00008808  _CPULoad                                                  
+1     00008809  _swiLoad                                                  
+1     0000880a  _newsample1                                               
+1     0000880b  _yn1                                                      
+1     0000880c  _newsample2                                               
+1     0000880d  _yn2                                                      
+1     0000880e  _stat                                                     
+1     00008812  _gain                                                     
+1     00008816  _fft2sum                                                  
+1     0000881e  _gain32                                                   
+1     00008826  _fft1sum                                                  
 1     00008840  _rfft                                                     
 1     00008858  _parmbuf                                                  
 1     00008860  ___TI_enable_exit_profile_output                          
@@ -2506,10 +2497,10 @@ page  address   name
 1     00008866  __lock                                                    
 1     00008868  __unlock                                                  
 1     00008880  __CIOBUF_                                                 
-1     00008c00  _dbuffer3                                                 
-1     00008c06  _dbuffer2                                                 
-1     00008c0c  _dbuffer4                                                 
-1     00008c12  _dbuffer1                                                 
+1     00008c00  _dbuffer1                                                 
+1     00008c06  _dbuffer4                                                 
+1     00008c0c  _dbuffer3                                                 
+1     00008c12  _dbuffer2                                                 
 1     003d7fff  _PartIdRegs                                               
 1     003f7ff8  _CsmPwl                                                   
 abs   00000000  _RamfuncsLoadSize                                         
@@ -2525,4 +2516,4 @@ abs   ffffffff  ___pinit__
 abs   ffffffff  binit                                                     
 abs   ffffffff  pinit                                                     
 
-[675 symbols]
+[672 symbols]

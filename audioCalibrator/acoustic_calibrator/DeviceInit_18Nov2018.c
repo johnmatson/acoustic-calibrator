@@ -13,6 +13,7 @@
 
 #define SPI_BRR        ((50E6 / 4) / 500E3) - 1
 
+// section added by JM
 void InitFlash(void)
 {
     EALLOW;
@@ -46,7 +47,7 @@ void DeviceInit(void);
 //---------------------------------------------------------------
 void DeviceInit(void)
 {
-   InitFlash();
+   InitFlash(); // JM
 
    EALLOW; // temporarily unprotect registers
 
@@ -158,6 +159,8 @@ void DeviceInit(void)
 //---------------------------------------------------------------
 //---------------------------------------------------------------
 
+	// GPIO 16-19 modified by AM
+
 //  GPIO-16 - PIN FUNCTION = --Spare--
 	GpioCtrlRegs.GPAMUX2.bit.GPIO16 = 1; // 0=GPIO,  1=SPISIMO-A,  2=Resv,  3=TZ2
 	GpioCtrlRegs.GPADIR.bit.GPIO16 = 1; // 1=OUTput,  0=INput
@@ -263,7 +266,7 @@ void DeviceInit(void)
 	SpiaRegs.SPICCR.bit.SPISWRESET = 1;
 
 //---------------------------------------------------------------
-// INITIALIZE A-D
+// INITIALIZE A-D     //section added by AM
 //---------------------------------------------------------------
 //input channel = junction temperature sensor, SOC0, software triggering
 

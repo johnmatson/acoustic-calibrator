@@ -9,14 +9,15 @@
  *  2020/11/18
  */
  
+// added by AM
 #define FILTER_SIZE 6//size of registers for the IIR filter
 #define FFT_SIZE 32// size of registers for the FFT calculation
 #define BAND_QUANTITY 4
-#define PI 3.14159265358979323
 
 
 #define xdc__strict//gets rid of #303-D typedef warning re Uint16, Uint32
 
+//modified by AM
 #include <xdc/std.h>
 #include <xdc/runtime/System.h>
 #include <ti/sysbios/BIOS.h>
@@ -26,7 +27,7 @@
 #include "fft.h"
 #include "fft_hamming_Q31.h"
 #include <math.h>
-#include <ti/sysbios/utils/Load.h>    // AF CK
+#include <ti/sysbios/utils/Load.h>
 
 // filter includes
 //#include "device.h"
@@ -38,11 +39,13 @@
 
 // create instances of IIR5BIQD16 module for each filter
 // and place in "iirfilt" section
+// added by JM
 #pragma DATA_SECTION(iir1, "iirfilt");
 #pragma DATA_SECTION(iir2, "iirfilt");
 #pragma DATA_SECTION(iir3, "iirfilt");
 #pragma DATA_SECTION(iir4, "iirfilt");
 
+//added by JM
 IIR5BIQ16 iir1 = IIR5BIQ16_DEFAULTS;
 IIR5BIQ16 iir2 = IIR5BIQ16_DEFAULTS;
 IIR5BIQ16 iir3 = IIR5BIQ16_DEFAULTS;
@@ -58,6 +61,7 @@ int16_t dbuffer2[2*IIR16_2_NBIQ];
 int16_t dbuffer3[2*IIR16_3_NBIQ];
 int16_t dbuffer4[2*IIR16_4_NBIQ];
 
+// added by JM
 // create and populate coefficient variables for each filter
 const int16_t coeff1[5*IIR16_1_NBIQ] = IIR16_1_COEFF;
 const int16_t coeff2[5*IIR16_2_NBIQ] = IIR16_2_COEFF;
@@ -67,11 +71,15 @@ const int16_t coeff4[5*IIR16_4_NBIQ] = IIR16_4_COEFF;
 //function prototypes:
 extern void DeviceInit(void);
 
+//added by AM
 int16 newsample1; // sample from ADC_1
 int16 newsample2; // sample from ADC_2
+
+//added by JM
 int16 yn1, yn2, yn3, yn4; // post-filter pre-sum output samples
 int16 yn; // post-filter post-sum output sample
 
+//added by AM
 #pragma DATA_SECTION(fftin1, "FFTipcbsrc");
 #pragma DATA_SECTION(fftin2, "FFTipcbsrc");
 int32 fftin1[FFT_SIZE]; // input buffer for FFT 1
@@ -80,22 +88,23 @@ int32 fftin2[FFT_SIZE]; // intput buffer for FFT 2
 #pragma DATA_SECTION(fftout2, "FFTipcb");
 int32 fftout1[FFT_SIZE+2]; // output buffer for FFT 1
 int32 fftout2[FFT_SIZE+2]; // output buffer for FFT 2
-
 #pragma DATA_SECTION(magnitude1, "FFTmagbuf");
 #pragma DATA_SECTION(magnitude2, "FFTmagbuf");
 int32 magnitude1[FFT_SIZE];
 int32 magnitude2[FFT_SIZE];
 
+//added by JM
 int16 gain[BAND_QUANTITY]; // buffer containing the gains of the 4 filters.
 int32 gain32[BAND_QUANTITY];
 
+// added by AM
 int16 i; // for loop iterator
 int16 fft_count = 0;// fft buffer loop counter
 bool fft_flag = 0;// bool used for fft buffer control
-
 int32 fft1sum[4]; // summing buckets for FFT1
 int32 fft2sum[4]; // summing buckets for FFT2
 
+// added by AM
 Load_Stat stat;
 Int CPULoad;
 Int hwiLoad;
@@ -108,21 +117,15 @@ extern const Swi_Handle SWIDac;
 extern const Task_Handle ffthandle;
 
 // Declare and initialize the structure object.
-// Use the RFFT32_<n>P_DEFUALTS in the FFT header file if
-// unsure as to what values to program the object with.
+// added by AM
 RFFT32  rfft = RFFT32_32P_DEFAULTS;
-const long win[FFT_SIZE/2]=HAMMING32;
-
-float RadStep = 0.1963495408494f;
-float Rad = 0.0f;
-int16 count = 0; // count for testing
 
 /*
  *  ======== main ========
  */
 Int main()
 {
-    
+    // filter initialization added by JM
     // initialize filter 1
     iir1.dbuffer_ptr  = (int16_t *)dbuffer1;
     iir1.coeff_ptr    = (int16_t *)coeff1;
@@ -161,13 +164,7 @@ Int main()
     gain[2] = 1;
     gain[3] = 1;
 
-    /* 
-     * Start BIOS
-     * Perform a few final initializations and then
-     * fall into a loop that continually calls the
-     * installed Idle functions.
-     */
-
+    //for loops added by AM
     for(i = 0; i < (FFT_SIZE); i++) {
         fftin1[i] = 0;
         fftin2[i] = 0;
@@ -177,21 +174,26 @@ Int main()
         fftout2[i] = 0;
     }
 
+    /*
+         * Start BIOS
+         * Perform a few final initializations and then
+         * fall into a loop that continually calls the
+         * installed Idle functions.
+         */
+
     DeviceInit(); // initialize peripherals
     BIOS_start();    /* does not return */
     return(0);
 }
 
-Void ADCtimer(UArg arg){
-
-}
+Void ADCtimer(UArg arg){ }// AM
 
 /*
  *  ======== myIdleFxn ========
  *  This section performs the FFTs of the two inputs, then uses the result to modify the gain
  *
  */
-Void myIdleFxn(Void) {
+Void myIdleFxn(Void) {// AM
 
     Load_getGlobalHwiLoad(&stat);               // HWI load check
     hwiLoad = Load_calculateLoad(&stat);
@@ -209,7 +211,7 @@ Void myIdleFxn(Void) {
 
 // HWI handlers for the ADC results
 // vector ID 32 is ADCINT1
-Void ADC_1(Void) {
+Void ADC_1(Void) { //AM
     //read ADC value
     newsample1 = (AdcResult.ADCRESULT0 << 4 ) ^ 0x8000; //get reading
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //clear interrupt flag
@@ -218,7 +220,7 @@ Void ADC_1(Void) {
 }
 
 // vector ID 33 is ADCINT2
-Void ADC_2(Void) {
+Void ADC_2(Void) {// AM
     //read ADC value
     newsample2 = (AdcResult.ADCRESULT1 << 4 ) ^ 0x8000; //get reading
     AdcRegs.ADCINTFLGCLR.bit.ADCINT2 = 1; //clear interrupt flag
@@ -227,7 +229,7 @@ Void ADC_2(Void) {
 // SWI handler passes input signal 1 through four
 // GEQ filters and sums output values with associated
 // gains.
-void filter(void) {
+void filter(void) { //JM
     // convert from shifted "unsigned" to Q1.15
     // by shifting to right align & flipping top bit
 
@@ -262,6 +264,7 @@ void filter(void) {
     // convert from Q11 to "unsigned" value for output
     yn = yn & 0x8FFF;
 
+    //block until Swi_post() added by AM
     if(~fft_flag && (fft_count < FFT_SIZE)) {
         fftin1[fft_count] = (int16)newsample1;
         fftin2[fft_count] = (int16)newsample2;
@@ -278,7 +281,8 @@ void filter(void) {
     Swi_post(SWIDac);
 }
 
-Void dac(Void) {
+
+Void dac(Void) {// AM
     // write D-A output sample to SPI
     SpiaRegs.SPITXBUF = yn;
 }
@@ -287,6 +291,8 @@ Void fft(Void) {
 
     while(TRUE) {
 
+        // AM
+        //=====================================
         Semaphore_pend(SEMFft, BIOS_WAIT_FOREVER);
 
         fft_flag = 1;//block filter function from updating fft buffer while calculations are being run
@@ -315,7 +321,10 @@ Void fft(Void) {
         rfft.calc(&rfft);                       // Compute the FFT
         rfft.split(&rfft);                      // Post processing to get the correct spectrum
         rfft.mag(&rfft);                        // Q31 format (abs(ipcbsrc)/2^16).^2
+        //======================================
 
+
+        // JM
         // sum 16 FFT bins into 4 bins for filter bands
         fft2sum[0] = magnitude2[0] + magnitude2[1] + magnitude2[2] + magnitude2[3];
         fft2sum[1] = magnitude2[4] + magnitude2[5] + magnitude2[6] + magnitude2[7];

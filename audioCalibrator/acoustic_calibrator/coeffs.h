@@ -1,4 +1,7 @@
-
+// IIR coefficients used by 4 separate bandpass filters
+//
+// File created by John Matson
+// November 26 2020
 
 // filter coefficents for GEQ 1
 #define IIR16_1_COEFF {\
