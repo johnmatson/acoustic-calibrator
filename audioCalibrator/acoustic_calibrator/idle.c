@@ -257,10 +257,10 @@ void filter(void) {
     yn = (gain[0]*yn1) + (gain[1]*yn2) + (gain[2]*yn3) + (gain[3]*yn4); // Q13
 
     // convert from Q13 to Q11
-    yn = yn >> 2; // Q11
+    yn = (yn ^ 0x8000) >> 4; // Q11
 
     // convert from Q11 to "unsigned" value for output
-    yn = yn ^ 0x8000;
+    yn = yn & 0x8FFF;
 
     if(~fft_flag && (fft_count < FFT_SIZE)) {
         fftin1[fft_count] = (int16)newsample1;
@@ -323,11 +323,11 @@ Void fft(Void) {
         fft2sum[3] = magnitude2[12] + magnitude2[13] + magnitude2[14] + magnitude2[15];
 
 
-        // calculate actual/refernce gain ratios
-        gain32[0] = magnitude2[0] / (magnitude1[0] >> 4);
-        gain32[1] = magnitude2[1] / (magnitude1[1] >> 4);
-        gain32[2] = magnitude2[2] / (magnitude1[2] >> 4);
-        gain32[3] = magnitude2[3] / (magnitude1[3] >> 4);
+        // calculate actual/reference gain ratios
+        gain32[0] = magnitude2[0] / (magnitude1[0] >> 2);
+        gain32[1] = magnitude2[1] / (magnitude1[1] >> 2);
+        gain32[2] = magnitude2[2] / (magnitude1[2] >> 2);
+        gain32[3] = magnitude2[3] / (magnitude1[3] >> 2);
 
         // limit gain values to 1 through 7 
         if(gain32[0] < 1)
@@ -346,14 +346,14 @@ Void fft(Void) {
         
         if(gain32[2] < 1)
             gain[2] = 1;
-        else if(gain32[0] > 7)
+        else if(gain32[2] > 7)
             gain[2] = 7;
         else
             gain[2] = gain32[2];
         
         if(gain32[3] < 1)
             gain[3] = 1;
-        else if(gain32[0] > 7)
+        else if(gain32[3] > 7)
             gain[3] = 7;
         else
             gain[3] = gain32[3];

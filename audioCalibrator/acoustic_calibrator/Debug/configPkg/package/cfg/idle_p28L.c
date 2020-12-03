@@ -4556,7 +4556,7 @@ ti_sysbios_family_c28_Timer_Object__ ti_sysbios_family_c28_Timer_Object__table__
         },  /* emulationModeInit */
         ti_sysbios_interfaces_ITimer_RunMode_CONTINUOUS,  /* runMode */
         ti_sysbios_interfaces_ITimer_StartMode_AUTO,  /* startMode */
-        (xdc_UInt32)0x2710,  /* period */
+        (xdc_UInt32)0x1d4c,  /* period */
         ti_sysbios_interfaces_ITimer_PeriodType_COUNTS,  /* periodType */
         (xdc_UInt16)0x0,  /* prescale */
         (xdc_UInt)0x26,  /* intNum */
