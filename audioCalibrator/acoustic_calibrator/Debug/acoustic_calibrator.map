@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v18.1.8                     
 ******************************************************************************
->> Linked Thu Dec  3 01:03:08 2020
+>> Linked Thu Dec  3 02:22:24 2020
 
 OUTPUT FILE NAME:   <acoustic_calibrator.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 003f197d
@@ -15,7 +15,7 @@ PAGE 0:
   OTP                   003d7800   00000400  00000000  00000400  RWIX
   FLASH                 003f0000   00007f80  000067e5  0000179b  RWIX
   CSM_RSVD              003f7f80   00000076  00000000  00000076  RWIX
-  BEGIN                 003f7ff6   00000002  00000000  00000002  RWIX
+  BEGIN                 003f7ff6   00000002  00000002  00000000  RWIX
   CSM_PWL               003f7ff8   00000008  00000000  00000008  RWIX
   IQTABLES              003fe000   00000b50  00000000  00000b50  RWIX
   IQTABLES2             003feb50   0000008c  00000000  0000008c  RWIX
@@ -668,6 +668,10 @@ CsmPwlFile
                   003f310d    00000001                  : BIOS.obj (.text:_ti_sysbios_utils_Load_logCPULoad__I)
                   003f310e    00000001     rts2800_ml.lib : startup.c.obj (.text)
 
+codestart 
+*          0    003f7ff6    00000002     
+                  003f7ff6    00000002     CodeStartBranch.obj (codestart)
+
 ramfuncs   1    00008000    00000000     UNINITIALIZED
 
 .stack     1    00000000    00000100     UNINITIALIZED
@@ -729,8 +733,9 @@ MODULE SUMMARY
        RFFT32_brev_RT.obj                20      0                  0                 
        DelayUs.obj                       16      0                  0                 
        FFT32_izero.obj                   14      0                  0                 
+       CodeStartBranch.obj               2       0                  0                 
     +--+---------------------------------+-------+------------------+--------------------+
-       Total:                            1869    6375               1410              
+       Total:                            1871    6375               1410              
                                                                                       
     C:\Users\Alex\Documents\GitHub\acoustic-calibrator\audioCalibrator\acoustic_calibrator\Debug\configPkg\package\cfg\
        idle_p28L.o28L                    767     7311               2048              
@@ -797,7 +802,7 @@ MODULE SUMMARY
                                                                                       
        Stack:                            0       0                  256               
     +--+---------------------------------+-------+------------------+--------------------+
-       Grand Total:                      12559   14036              4020              
+       Grand Total:                      12561   14036              4020              
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE

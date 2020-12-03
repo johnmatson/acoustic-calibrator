@@ -13,6 +13,7 @@ CMD_SRCS += \
 ../TMS320F28027.cmd 
 
 ASM_SRCS += \
+../CodeStartBranch.asm \
 ../DelayUs.asm \
 ../FFT32_calc.asm \
 ../FFT32_init.asm \
@@ -51,6 +52,7 @@ GEN_OPTS += \
 ./configPkg/compiler.opt 
 
 OBJS += \
+./CodeStartBranch.obj \
 ./DelayUs.obj \
 ./DeviceInit_18Nov2018.obj \
 ./ELEX7820-DA-DacIsr\ template.obj \
@@ -68,6 +70,7 @@ OBJS += \
 ./sel_q.obj 
 
 ASM_DEPS += \
+./CodeStartBranch.d \
 ./DelayUs.d \
 ./FFT32_calc.d \
 ./FFT32_init.d \
@@ -84,6 +87,7 @@ GEN_MISC_DIRS__QUOTED += \
 "configPkg\" 
 
 OBJS__QUOTED += \
+"CodeStartBranch.obj" \
 "DelayUs.obj" \
 "DeviceInit_18Nov2018.obj" \
 "ELEX7820-DA-DacIsr template.obj" \
@@ -111,6 +115,7 @@ GEN_FILES__QUOTED += \
 "configPkg\compiler.opt" 
 
 ASM_DEPS__QUOTED += \
+"CodeStartBranch.d" \
 "DelayUs.d" \
 "FFT32_calc.d" \
 "FFT32_init.d" \
@@ -124,6 +129,7 @@ ASM_DEPS__QUOTED += \
 "sel_q.d" 
 
 ASM_SRCS__QUOTED += \
+"../CodeStartBranch.asm" \
 "../DelayUs.asm" \
 "../FFT32_calc.asm" \
 "../FFT32_init.asm" \
