@@ -73,11 +73,14 @@ int16 yn1, yn2, yn3, yn4; // post-filter pre-sum output samples
 int16 yn; // post-filter post-sum output sample
 
 #pragma DATA_SECTION(fftin1, "FFTipcbsrc");
-int32 fftin1[FFT_SIZE]; // buffer for FFT 1
+#pragma DATA_SECTION(fftin2, "FFTipcbsrc");
+int32 fftin1[FFT_SIZE]; // input buffer for FFT 1
+int32 fftin2[FFT_SIZE]; // intput buffer for FFT 2
 #pragma DATA_SECTION(fftout1, "FFTipcb");
-int32 fftout1[FFT_SIZE]; // buffer for FFT 2
-#pragma DATA_SECTION(fftmag, "FFTmagbuf");
-int32 fftmag[FFT_SIZE];
+#pragma DATA_SECTION(fftout2, "FFTipcb");
+int32 fftout1[FFT_SIZE]; // output buffer for FFT 1
+int32 fftout2[FFT_SIZE]; // output buffer for FFT 2
+
 
 int16 gain[BAND_QUANTITY]; // buffer containing the gains of the 4 filters.
 
@@ -239,6 +242,7 @@ void filter(void) {
 
     if(~fft_flag && (fft_count < FFT_SIZE)) {
         fftin1[fft_count] = newsample1;
+        fftin2[fft_count] = newsample2;
         fft_count++;
     }
     else {
@@ -264,16 +268,25 @@ Void fft(Void) {
         fft_flag = 1;//block filter function from updating fft buffer while calculations are being run
 
 
+        //fft for input from ADC 1, reference signal
         RFFT32_brev(fftin1, fftout1, FFT_SIZE); // real FFT bit reversing
-
         rfft.ipcbptr = fftout1;                  // FFT computation buffer
         rfft.magptr  = fftin1;               // Magnitude output buffer
-        //rfft.winptr  = (long *)win;           // Window coefficient array
         rfft.init(&rfft);                     // Twiddle factor pointer initialization
-
         rfft.calc(&rfft);                     // Compute the FFT
         rfft.split(&rfft);                    // Post processing to get the correct spectrum
         rfft.mag(&rfft);                      // Q31 format (abs(ipcbsrc)/2^16).^2
+
+
+        // fft for input from ADC 2, signal from 'microphone'
+        RFFT32_brev(fftin2, fftout2, FFT_SIZE); // real FFT bit reversing
+        rfft.ipcbptr = fftout2;                  // FFT computation buffer
+        rfft.magptr  = fftin2;               // Magnitude output buffer
+        rfft.init(&rfft);                     // Twiddle factor pointer initialization
+        rfft.calc(&rfft);                     // Compute the FFT
+        rfft.split(&rfft);                    // Post processing to get the correct spectrum
+        rfft.mag(&rfft);                      // Q31 format (abs(ipcbsrc)/2^16).^2
+
 
         fft_flag = 0;
 
