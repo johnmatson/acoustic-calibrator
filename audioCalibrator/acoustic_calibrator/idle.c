@@ -218,24 +218,36 @@ void filter(void) {
 
     iir1.input = newsample1;
     iir1.calc(&iir1);
-    yn1 = iir1.output;
+    yn1 = iir1.output; // Q15
 
     iir2.input = newsample1;
     iir2.calc(&iir2);
-    yn2 = iir2.output;
+    yn2 = iir2.output; // Q15
 
     iir3.input = newsample1;
     iir3.calc(&iir3);
-    yn3 = iir3.output;
+    yn3 = iir3.output; // Q15
 
     iir4.input = newsample1;
     iir4.calc(&iir4);
-    yn4 = iir4.output;
+    yn4 = iir4.output; // Q15
 
     // ADD SUMMING AND OUTPUT CONVERSION HERE
 
-    yn = (gain[0]*yn1) + (gain[1]*yn2) + (gain[2]*yn3) + (gain[3]*yn4);
+    // convert from Q15 to Q13
+    yn1 = yn1 >> 2;
+    yn2 = yn2 >> 2;
+    yn3 = yn3 >> 2;
+    yn4 = yn4 >> 2;
 
+    // multiply & accumulate, possible gain values are limited to 1 through 7
+    yn = (gain[0]*yn1) + (gain[1]*yn2) + (gain[2]*yn3) + (gain[3]*yn4); // Q13
+
+    // convert from Q13 to Q11
+    yn = yn << 2; // Q11
+
+    // convert from Q11 to "unsigned" value for output
+    yn = yn ^ 0x8000;
 
     if(~fft_flag && (fft_count < FFT_SIZE)) {
         fftin1[fft_count] = newsample1;
