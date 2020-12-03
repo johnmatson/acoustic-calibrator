@@ -478,7 +478,7 @@ void RFFT32_split(void *);
 
 //! \brief Magnitude function of the Real FFT
 //! \param pointer (handle) to a RFFT32 object
-//! his function computes the magnitude square of the Real FFT output. Allows in-place
+//! This function computes the magnitude square of the Real FFT output. Allows in-place
 //! and off-place storage of the magnitude square results. It calculates the magnitude
 //! from DC (0Hz) to the Nyquist frequency (fs/2) 
 void RFFT32_mag(void *);
