@@ -87,10 +87,14 @@ int32 magnitude1[FFT_SIZE];
 int32 magnitude2[FFT_SIZE];
 
 int16 gain[BAND_QUANTITY]; // buffer containing the gains of the 4 filters.
+int32 gain32[BAND_QUANTITY];
 
 int16 i; // for loop iterator
 int16 fft_count = 0;// fft buffer loop counter
 bool fft_flag = 0;// bool used for fft buffer control
+
+int32 fft1sum[4]; // summing buckets for FFT1
+int32 fft2sum[4]; // summing buckets for FFT2
 
 Load_Stat stat;
 Int CPULoad;
@@ -253,7 +257,7 @@ void filter(void) {
     yn = (gain[0]*yn1) + (gain[1]*yn2) + (gain[2]*yn3) + (gain[3]*yn4); // Q13
 
     // convert from Q13 to Q11
-    yn = yn << 2; // Q11
+    yn = yn >> 2; // Q11
 
     // convert from Q11 to "unsigned" value for output
     yn = yn ^ 0x8000;
@@ -275,7 +279,8 @@ void filter(void) {
 }
 
 Void dac(Void) {
-    SpiaRegs.SPITXBUF = (yn ^ 0x8000) >> 4;
+    // write D-A output sample to SPI
+    SpiaRegs.SPITXBUF = yn;
 }
 
 Void fft(Void) {
@@ -295,6 +300,12 @@ Void fft(Void) {
         rfft.split(&rfft);                      // Post processing to get the correct spectrum
         rfft.mag(&rfft);                        // Q31 format (abs(ipcbsrc)/2^16).^2
 
+        // sum 16 FFT bins into 4 bins for filter bands
+        fft1sum[0] = magnitude1[0] + magnitude1[1] + magnitude1[2] + magnitude1[3];
+        fft1sum[1] = magnitude1[4] + magnitude1[5] + magnitude1[6] + magnitude1[7];
+        fft1sum[2] = magnitude1[8] + magnitude1[9] + magnitude1[10] + magnitude1[11];
+        fft1sum[3] = magnitude1[12] + magnitude1[13] + magnitude1[14] + magnitude1[15];
+
 
         // fft for input from ADC 2, signal from 'microphone'
         RFFT32_brev(fftin2, fftout2, FFT_SIZE); // real FFT bit reversing
@@ -304,6 +315,49 @@ Void fft(Void) {
         rfft.calc(&rfft);                       // Compute the FFT
         rfft.split(&rfft);                      // Post processing to get the correct spectrum
         rfft.mag(&rfft);                        // Q31 format (abs(ipcbsrc)/2^16).^2
+
+        // sum 16 FFT bins into 4 bins for filter bands
+        fft2sum[0] = magnitude2[0] + magnitude2[1] + magnitude2[2] + magnitude2[3];
+        fft2sum[1] = magnitude2[4] + magnitude2[5] + magnitude2[6] + magnitude2[7];
+        fft2sum[2] = magnitude2[8] + magnitude2[9] + magnitude2[10] + magnitude2[11];
+        fft2sum[3] = magnitude2[12] + magnitude2[13] + magnitude2[14] + magnitude2[15];
+
+
+        // calculate actual/refernce gain ratios
+        gain32[0] = magnitude2[0] / (magnitude1[0] >> 4);
+        gain32[1] = magnitude2[1] / (magnitude1[1] >> 4);
+        gain32[2] = magnitude2[2] / (magnitude1[2] >> 4);
+        gain32[3] = magnitude2[3] / (magnitude1[3] >> 4);
+
+        // limit gain values to 1 through 7 
+        if(gain32[0] < 1)
+            gain[0] = 1;
+        else if(gain32[0] > 7)
+            gain[0] = 7;
+        else
+            gain[0] = gain32[0];
+        
+        if(gain32[1] < 1)
+            gain[1] = 1;
+        else if(gain32[1] > 7)
+            gain[1] = 7;
+        else
+            gain[1] = gain32[1];
+        
+        if(gain32[2] < 1)
+            gain[2] = 1;
+        else if(gain32[0] > 7)
+            gain[2] = 7;
+        else
+            gain[2] = gain32[2];
+        
+        if(gain32[3] < 1)
+            gain[3] = 1;
+        else if(gain32[0] > 7)
+            gain[3] = 7;
+        else
+            gain[3] = gain32[3];
+
 
         fft_flag = 0;
         }
