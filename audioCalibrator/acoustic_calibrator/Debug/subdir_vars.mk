@@ -27,6 +27,7 @@ ASM_SRCS += \
 
 C_SRCS += \
 ../DeviceInit_18Nov2018.c \
+../ELEX7820-DA-DacIsr\ template.c \
 ../F2802x_GlobalVariableDefs.c \
 ../idle.c 
 
@@ -42,6 +43,7 @@ GEN_MISC_DIRS += \
 
 C_DEPS += \
 ./DeviceInit_18Nov2018.d \
+./ELEX7820-DA-DacIsr\ template.d \
 ./F2802x_GlobalVariableDefs.d \
 ./idle.d 
 
@@ -51,6 +53,7 @@ GEN_OPTS += \
 OBJS += \
 ./DelayUs.obj \
 ./DeviceInit_18Nov2018.obj \
+./ELEX7820-DA-DacIsr\ template.obj \
 ./F2802x_GlobalVariableDefs.obj \
 ./FFT32_calc.obj \
 ./FFT32_init.obj \
@@ -83,6 +86,7 @@ GEN_MISC_DIRS__QUOTED += \
 OBJS__QUOTED += \
 "DelayUs.obj" \
 "DeviceInit_18Nov2018.obj" \
+"ELEX7820-DA-DacIsr template.obj" \
 "F2802x_GlobalVariableDefs.obj" \
 "FFT32_calc.obj" \
 "FFT32_init.obj" \
@@ -98,6 +102,7 @@ OBJS__QUOTED += \
 
 C_DEPS__QUOTED += \
 "DeviceInit_18Nov2018.d" \
+"ELEX7820-DA-DacIsr template.d" \
 "F2802x_GlobalVariableDefs.d" \
 "idle.d" 
 
@@ -133,6 +138,7 @@ ASM_SRCS__QUOTED += \
 
 C_SRCS__QUOTED += \
 "../DeviceInit_18Nov2018.c" \
+"../ELEX7820-DA-DacIsr template.c" \
 "../F2802x_GlobalVariableDefs.c" \
 "../idle.c" 
 

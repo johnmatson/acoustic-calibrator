@@ -25,6 +25,7 @@ DeviceInit_18Nov2018.obj: ../Peripheral_Headers/F2802x_Spi.h
 DeviceInit_18Nov2018.obj: ../Peripheral_Headers/F2802x_Sci.h
 DeviceInit_18Nov2018.obj: ../Peripheral_Headers/F2802x_SysCtrl.h
 DeviceInit_18Nov2018.obj: ../Peripheral_Headers/F2802x_XIntrupt.h
+DeviceInit_18Nov2018.obj: ../DSP2802x_DefaultISR.h
 
 ../DeviceInit_18Nov2018.c: 
 ../Peripheral_Headers/F2802x_Device.h: 
@@ -51,3 +52,4 @@ C:/ti/ccsv8/tools/compiler/ti-cgt-c2000_18.1.8.LTS/include/stdint.h:
 ../Peripheral_Headers/F2802x_Sci.h: 
 ../Peripheral_Headers/F2802x_SysCtrl.h: 
 ../Peripheral_Headers/F2802x_XIntrupt.h: 
+../DSP2802x_DefaultISR.h: 

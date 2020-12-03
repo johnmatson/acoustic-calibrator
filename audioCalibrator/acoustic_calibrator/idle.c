@@ -93,6 +93,7 @@ Int taskLoad;
 
 extern const Semaphore_Handle SEMFft;
 extern const Swi_Handle SWIFilter;
+extern const Swi_Handle SWIDac;
 extern const Task_Handle ffthandle;
 
 // Declare and initialize the structure object.
@@ -214,7 +215,6 @@ Void ADC_2(Void) {
 void filter(void) {
     // convert from shifted "unsigned" to Q1.15
     // by shifting to right align & flipping top bit
-int16 xn;
 
     iir1.input = newsample1;
     iir1.calc(&iir1);
@@ -246,7 +246,13 @@ int16 xn;
         Semaphore_post(SEMFft);
     }
 
+    Swi_post(SWIDac);
 }
+
+Void dac(Void) {
+    SpiaRegs.SPITXBUF = (yn ^ 0x8000) >> 4;
+}
+
 
 Void fft(Void) {
 
@@ -274,26 +280,3 @@ Void fft(Void) {
         }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

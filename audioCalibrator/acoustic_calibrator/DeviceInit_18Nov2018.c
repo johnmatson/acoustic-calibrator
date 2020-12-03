@@ -9,6 +9,9 @@
 //===============================================================
 
 #include "Peripheral_Headers/F2802x_Device.h"
+#include "DSP2802x_DefaultISR.h"
+
+#define SPI_BRR        ((50E6 / 4) / 500E3) - 1
 
 void InitFlash(void)
 {
@@ -66,7 +69,7 @@ void DeviceInit(void)
    //------------------------------------------------
    SysCtrlRegs.PCLKCR0.bit.I2CAENCLK = 0;   // I2C
    //------------------------------------------------
-   SysCtrlRegs.PCLKCR0.bit.SPIAENCLK = 0;	// SPI-A
+   SysCtrlRegs.PCLKCR0.bit.SPIAENCLK = 1;	// SPI-A
    //------------------------------------------------
    SysCtrlRegs.PCLKCR0.bit.SCIAENCLK = 0;  	// SCI-A
    //------------------------------------------------
@@ -156,27 +159,35 @@ void DeviceInit(void)
 //---------------------------------------------------------------
 
 //  GPIO-16 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX2.bit.GPIO16 = 0; // 0=GPIO,  1=SPISIMO-A,  2=Resv,  3=TZ2
-	GpioCtrlRegs.GPADIR.bit.GPIO16 = 0; // 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO16 = 1;	// uncomment if --> Set Low initially
+	GpioCtrlRegs.GPAMUX2.bit.GPIO16 = 1; // 0=GPIO,  1=SPISIMO-A,  2=Resv,  3=TZ2
+	GpioCtrlRegs.GPADIR.bit.GPIO16 = 1; // 1=OUTput,  0=INput
+	GpioCtrlRegs.GPAPUD.bit.GPIO16 = 0;   // Enable pull-up on GPIO16(SPISIMOA)
+	GpioCtrlRegs.GPAQSEL2.bit.GPIO16 = 3; // Asynch input GPIO16 (SPISIMOA)
+	GpioDataRegs.GPACLEAR.bit.GPIO16 = 1;	// uncomment if --> Set Low initially
 //	GpioDataRegs.GPASET.bit.GPIO16 = 1; // uncomment if --> Set High initially
 //---------------------------------------------------------------
 //  GPIO-17 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX2.bit.GPIO17 = 0; // 0=GPIO,  1=SPISOMI-A,  2=Resv,  3=TZ3
+	GpioCtrlRegs.GPAMUX2.bit.GPIO17 = 1; // 0=GPIO,  1=SPISOMI-A,  2=Resv,  3=TZ3
 	GpioCtrlRegs.GPADIR.bit.GPIO17 = 0; // 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO17 = 1;	// uncomment if --> Set Low initially
+    GpioCtrlRegs.GPAPUD.bit.GPIO17 = 0;   // Enable pull-up on GPIO17(SPISOMIA)
+    GpioCtrlRegs.GPAQSEL2.bit.GPIO17 = 3; // Asynch input GPIO17 (SPISOMIA)
+	GpioDataRegs.GPACLEAR.bit.GPIO17 = 1;	// uncomment if --> Set Low initially
 //	GpioDataRegs.GPASET.bit.GPIO17 = 1; // uncomment if --> Set High initially
 //---------------------------------------------------------------
 //  GPIO-18 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX2.bit.GPIO18 = 0; // 0=GPIO,  1=SPICLK-A,  2=SCITX-A,  3=XCLKOUT
-	GpioCtrlRegs.GPADIR.bit.GPIO18 = 0; // 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO18 = 1;	// uncomment if --> Set Low initially
+	GpioCtrlRegs.GPAMUX2.bit.GPIO18 = 1; // 0=GPIO,  1=SPICLK-A,  2=SCITX-A,  3=XCLKOUT
+	GpioCtrlRegs.GPADIR.bit.GPIO18 = 1; // 1=OUTput,  0=INput
+    GpioCtrlRegs.GPAPUD.bit.GPIO18 = 0;   // Enable pull-up on GPIO18(SPICLKA)
+    GpioCtrlRegs.GPAQSEL2.bit.GPIO18 = 3; // Asynch input GPIO18 (SPICLKA)
+	GpioDataRegs.GPACLEAR.bit.GPIO18 = 1;	// uncomment if --> Set Low initially
 //	GpioDataRegs.GPASET.bit.GPIO18 = 1; // uncomment if --> Set High initially
 //---------------------------------------------------------------
 //  GPIO-19 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX2.bit.GPIO19 = 0; // 0=GPIO,  1=SPISTE-A,  2=SCIRX-A,  3=ECAP1
-	GpioCtrlRegs.GPADIR.bit.GPIO19 = 0; // 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;	// uncomment if --> Set Low initially
+	GpioCtrlRegs.GPAMUX2.bit.GPIO19 = 1; // 0=GPIO,  1=SPISTE-A,  2=SCIRX-A,  3=ECAP1
+	GpioCtrlRegs.GPADIR.bit.GPIO19 = 1; // 1=OUTput,  0=INput
+    GpioCtrlRegs.GPAPUD.bit.GPIO19 = 0;   // Enable pull-up on GPIO19(SPISTEA)
+    GpioCtrlRegs.GPAQSEL2.bit.GPIO19 = 3; // Asynch input GPIO19 (SPISTEA)
+	GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;	// uncomment if --> Set Low initially
 //	GpioDataRegs.GPASET.bit.GPIO19 = 1; // uncomment if --> Set High initially
 //---------------------------------------------------------------
 //  GPIO-20 - GPIO-27 = Do Not Exist
@@ -218,6 +229,38 @@ void DeviceInit(void)
 //  GPIO-35 - GPIO-38 = Used for JTAG Port
 //---------------------------------------------------------------
 //---------------------------------------------------------------
+
+//------------------------------------------
+// Initialize SPI
+//------------------------------------------
+
+	// Set reset low before configuration changes
+	// Clock polarity (0 == rising, 1 == falling)
+	// 16-bit character
+	// Enable loop-back
+	SpiaRegs.SPICCR.bit.SPISWRESET = 0;
+	SpiaRegs.SPICCR.bit.CLKPOLARITY = 0;
+	SpiaRegs.SPICCR.bit.SPICHAR = (16 - 1);
+	SpiaRegs.SPICCR.bit.SPILBK = 0;
+
+	// Enable master (0 == slave, 1 == master)
+	// Enable transmission (Talk)
+	// Clock phase (0 == normal, 1 == delayed)
+	// SPI interrupts are disabled
+	SpiaRegs.SPICTL.bit.MASTER_SLAVE = 1;
+	SpiaRegs.SPICTL.bit.TALK = 1;
+	SpiaRegs.SPICTL.bit.CLK_PHASE = 0;
+	SpiaRegs.SPICTL.bit.SPIINTENA = 0;
+
+	// Set the baud rate
+	SpiaRegs.SPIBRR = SPI_BRR;
+
+	// Set FREE bit
+	// Halting on a breakpoint will not halt the SPI
+	SpiaRegs.SPIPRI.bit.FREE = 1;
+
+	// Release the SPI from reset
+	SpiaRegs.SPICCR.bit.SPISWRESET = 1;
 
 //---------------------------------------------------------------
 // INITIALIZE A-D
