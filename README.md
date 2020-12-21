@@ -4,16 +4,17 @@
 ## Usage
 The callibrator is designed for the TMS320F28027 Piccolo Launchpad with integrated dual-sample 12-bit ADC and the external TLV5616CP 12-bit DAC. To begin calibration, perform the following steps:
 1. Scale & shift a line-level mono audio source so that it is centered around 1.67 V with a maximum peak-to-peak voltage of 3.3 V.
-2. Connect this scaled & shifted audio source to ADC input A (Launchpad pin J1.7).
-3. Setup a mono refernce mic in the listening position of choice.
+2. Connect this scaled & shifted audio source to ADC input A2 (Launchpad pin J1.8).
+3. Setup a mono reference mic in the listening position of choice.
 4. Amplify the mic signal and connect the line-level mono mic signal to ADC input B (Launchpad pin J1.8).
-5. Connect the DAC AGND (pin 5) to 0 V and VDD (pin 8) to 3.3 V.
-6. Connect the DAC DIN (pin 1) to Launchpad SIMO (pin J5.6).
-7. Connect the DAC SCLK (pin 2) to the Launchpad ___ (pin J_._).
-8. Connect the DAC CS (pin 3) to Launchpad ___ (pin J_._).
-9. Connect the DAC FS..... and REFIN to.....
-10. Connect the DAC output (pin 7) to the speaker for playback.
-11. Connect the Launchpad to your computer and compile the project to the device in Code Composer Studio.
+5. Connect the DAC AGND (pin 5) to Launchpad Ground and VDD (pin 8) to 3.3 V.
+6. Connect the DAC DIN (pin 1) to Launchpad SIMO (pin J2.6).
+7. Connect the DAC SCLK (pin 2) to the Launchpad SPICLK (pin J1.7).
+8. Connect the DAC Chip Select (pin 3) to Ground.
+9. Connect the DAC FS (pin 4) to Launchpad SPISTE (pin J2.2).
+10. Connect the DAC REFIN (pin 6) to the center-tap of a 10 KOhm potentiometer which is between the 3.3 V pin and ground, and set to provide 1.024 V.
+11. Connect the DAC output (pin 7) and Ground to the speaker for playback.
+12. Connect the Launchpad to your computer and compile the project to the device in Code Composer Studio.
 
 The callibrator should now counteract the acoustic signature of the room the audio is played back in, in real-time. Please note that sample rate is currently set to 5 kHz. The system will be optimized to operate at a suitable sample rate for audio playback in a future release. Also note that the callibrator output may oscillate under current operation. Improved averging algorithms will be included in a future release to resolve this issue.
 
