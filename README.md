@@ -12,7 +12,7 @@ The callibrator is designed for the TMS320F28027 Piccolo Launchpad with integrat
 7. Connect the DAC SCLK (pin 2) to the Launchpad SPICLK (pin J1.7).
 8. Connect the DAC Chip Select (pin 3) to Ground.
 9. Connect the DAC FS (pin 4) to Launchpad SPISTE (pin J2.2).
-10. Connect the DAC REFIN (pin 6) to the center-tap of a 10 KOhm potentiometer which is between the 3.3 V pin and ground, and set to provide 1.024 V.
+10. Connect the DAC REFIN (pin 6) to a 1.024 V reference signal.
 11. Connect the DAC output (pin 7) and Ground to the speaker for playback.
 12. Connect the Launchpad to your computer and compile the project to the device in Code Composer Studio.
 
